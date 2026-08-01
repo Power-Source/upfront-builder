@@ -1,0 +1,128 @@
+#sidebar-ui .create-theme-sidebar {
+
+	.sidebar-commands-header {
+		background: rgb(31,41,51);
+		height: 50px;
+	}
+
+	.upfront-logo {
+		background-position: -190px -439px;
+	}
+
+}
+
+#sidebar-ui .sidebar-commands-theme {
+	padding-left: 10px;
+}
+
+#sidebar-ui .create-theme-sidebar .sidebar-commands-primary {
+
+	.info-panel {
+		font-size: 11px;
+		line-height: 16px;
+		display: block;
+		color: #6c8dac;
+		margin: 0 0 8px;
+		clear: both;
+
+		b {
+			font-weight: bold;
+			color: #adc3d8;
+		}
+	}
+
+	.command-browse-layout {
+		float: left;
+		line-height: 34px;
+		padding: 0 10px;
+		font-size: 15px;
+		height: 35px;
+		width: 116px;
+		text-align: center;
+		opacity:.8;
+		background: #54708C;
+		margin-top: 0px !important;
+
+		&:hover {
+			opacity:1;
+		}
+	}
+
+	.command-open-exporter_media {
+		max-width: 120px;
+		font-size: 11px;
+		line-height: 18px;
+
+		a {
+			color: rgba(33, 33, 33, 1);
+			display: block;
+			margin: 0 0 0 20px;
+			opacity: 0.7;
+
+			&:before {
+				content: " ";
+				display: inline-block;
+				width: 12px;
+				height: 12px;
+				background-image: url('../../../../themes/upfront/img/uf-ui-sprite.png');
+				background-image: url('../../../../themes/upfront/img/uf-ui-sprite.svg');
+				background-repeat: no-repeat;
+				vertical-align: top;
+				margin: 4px 5px 0 0;
+			}
+			&.images:before {
+				background-position: -196px -182px;
+			}
+			&.sprites:before {
+				background-position: -196px -284px;
+			}
+			&:hover {
+				opacity: 1;
+			}
+		}
+	}
+
+
+
+}
+
+#sidebar-ui .sidebar-commands-control {
+	.command-grid {
+		float: right;
+		margin: 0 10px 0 0;
+	}
+}
+
+#sidebar-ui .sidebar-commands-responsive {
+	.command-browse-layout {
+		background: #54708C;
+		box-shadow: 0px 1px 0px 0px #2F3E4D, inset 0px 2px 0px 0px rgba(255, 255, 255, 0.1);
+		line-height: 34px;
+		padding: 0 10px;
+		border: 2px solid #25394d;
+		font-size: 15px;
+		height: 40px;
+		max-width: 110px;
+	}
+}
+
+.command-export {
+	float: right;
+	margin-right: 15px;
+}
+
+#sidebar-ui .sidebar-commands-responsive-control {
+	.command-save {
+		clear: both;
+		top: 0;
+		float: right;
+		margin-right: 10px;
+	}
+	.exit-responsive {
+		float: left;
+	}
+	.command-export {
+		margin-top: 25px !important;
+		min-width: 90px;
+	}
+}

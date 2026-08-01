@@ -1,0 +1,8 @@
+.agignore
+.jshintrc
+node_modules
+*.patch
+.buildpath
+.project
+.settings
+.tags*
