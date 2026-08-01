@@ -451,7 +451,6 @@
 				this.set_up_event_plumbing_before_render();
 				// @TODO hack to implement LayoutEditor objects
 				this.Objects = Upfront.Application.LayoutEditor.Objects;
-				Upfront.Util.post({action: "upfront_log_client_error", message: "Builder ThemeEditor start: objects=" + _.size(this.Objects) + ", layout=" + !!this.layout});
 				this.set_up_editor_interface();
 
 				this.set_up_event_plumbing_after_render();
@@ -510,7 +509,6 @@
 			if (Upfront.Application.mode.current === "theme") {
 				Upfront.Application.current_subapplication = Upfront.Application.ThemeEditor;
 				Upfront.Application.ThemeEditor.layout = Upfront.Application.layout || (previousSubapplication && previousSubapplication.layout);
-				Upfront.Util.post({action: "upfront_log_client_error", message: "Builder ThemeEditor installed: layout=" + !!Upfront.Application.ThemeEditor.layout});
 				Upfront.Application.ThemeEditor.boot();
 				if (Upfront.Application.ThemeEditor.layout) {
 					Upfront.Application.ThemeEditor.start();
