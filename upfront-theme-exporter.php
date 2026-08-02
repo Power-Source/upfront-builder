@@ -1,18 +1,17 @@
 <?php
 /*
 Plugin Name: Upfront Builder
-Plugin URI: http://premium.wpmudev.com/
+Plugin URI: https://psource.eimen.net/wiki/upfront-dokumentation/upfront-builder-dokumentation/
 Description: The fastest, most visual, way to build WordPress themes. Now anyone can design, build, export, share, and sell WordPress themes.
-Version: 1.1.9
-Author: WPMU DEV
+Version: 1.0.0
+Author: PSOURCE
 Text Domain: upfront_thx
-Author URI: http://premium.wpmudev.com
+Author URI: https://psource.eimen.net/
 License: GPLv2 or later
-WDP ID: 1107287
 */
 
 /*
-Copyright 2009-2014 Incsub (http://incsub.com)
+Copyright 2014-2026 PSOURCE (https://psource.eimen.net/)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
@@ -66,11 +65,6 @@ class UpfrontThemeExporter {
 	 * Boot point.
 	 */
 	public static function dispatch () {
-		// Check if we have proper core version support
-		if (!upfront_exporter_has_upfront_version('1.4')) {
-			return self::_serve_compat();
-		}
-
 		// Check if we have Upfront-related theme active
 		if (upfront_thx_is_current_theme_upfront_related()) {
 			return self::_serve_exporter();
@@ -78,16 +72,6 @@ class UpfrontThemeExporter {
 
 		// No? Serve kickstart
 		return self::_serve_kickstart();
-	}
-
-	/**
-	 * Serves exporter compat
-	 *
-	 * @return object
-	 */
-	private static function _serve_compat () {
-		require_once dirname(__FILE__) . '/lib/class_thx_compat.php';
-		return Thx_Compat::serve();
 	}
 
 	/**

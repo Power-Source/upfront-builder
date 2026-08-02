@@ -2,7 +2,7 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Upfront Builder 1.1.9\n"
+"Project-Id-Version: Upfront Builder 1.0.0\n"
 "Report-Msgid-Bugs-To: "
 "http://wordpress.org/support/plugin/upfront-theme-exporter\n"
 "POT-Creation-Date: 2017-07-25 09:12:50+00:00\n"
@@ -451,20 +451,6 @@ msgstr ""
 
 #: templates/plugin/admin_errors.php:15
 msgid "Oops, something seems to have gone wrong."
-msgstr ""
-
-#: templates/plugin/compat_core_version.php:3
-msgid "Your current version is at v%s."
-msgstr ""
-
-#: templates/plugin/compat_core_version.php:4
-msgid "Your current version is too old."
-msgstr ""
-
-#: templates/plugin/compat_core_version.php:11
-msgid ""
-"You need Upfront core at version v1.4 or better for Upfront Builder to work "
-"properly. <a href=\"%s\" target=\"_blank\">Get it here.</a>"
 msgstr ""
 
 #. Plugin Name of the plugin/theme

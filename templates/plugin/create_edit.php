@@ -43,7 +43,7 @@
 		<span class="upfront_logo"></span>
 	</h1>
 	<p class="info">
-		<?php esc_html_e('Create a unique, responsive Upfront theme that you can export, share, sell or tweak to your heart’s content.', UpfrontThemeExporter::DOMAIN); ?>
+		<?php esc_html_e('Erstelle ein einzigartiges, responsives Upfront-Theme, das Du exportieren, teilen, verkaufen oder nach Herzenslust anpassen kannst.', UpfrontThemeExporter::DOMAIN); ?>
 	</p>
 
 	<?php load_template(dirname(__FILE__) . '/admin_errors.php'); ?>
@@ -51,7 +51,7 @@
 	<div class="postbox-container">
 		<!-- Build New Theme -->
 		<div class="postbox newtheme" id="new-theme">
-			<h2 class="title"><?php esc_html_e('Build New Theme', UpfrontThemeExporter::DOMAIN); ?></h2>
+			<h2 class="title"><?php esc_html_e('Neues Theme erstellen', UpfrontThemeExporter::DOMAIN); ?></h2>
 			<div class="character"></div>
 			<div class="newtheme-form" >
 				<?php
@@ -62,7 +62,7 @@
 				?>
 				<div class="buttons">
 					<button type="button" class="create theme">
-						<?php esc_html_e('Start building', UpfrontThemeExporter::DOMAIN); ?>
+						<?php esc_html_e('Mit dem Bauen beginnen', UpfrontThemeExporter::DOMAIN); ?>
 					</button>
 				</div>
 			</div>
@@ -71,7 +71,7 @@
 		<!-- Existing Themes -->
 		<div class="postbox themes" id="existing-theme">
 			<?php if (!empty($themes)) { ?>
-				<h2 class="title"><?php esc_html_e('Edit existing theme', UpfrontThemeExporter::DOMAIN); ?></h2>
+				<h2 class="title"><?php esc_html_e('Bestehendes Theme bearbeiten', UpfrontThemeExporter::DOMAIN); ?></h2>
 
 				<div class="uf-thx-themes_container clearfix">
 				<?php foreach ($themes as $key => $theme) { ?>
@@ -101,16 +101,16 @@
 							<div class="uf-thx-caption">
 								<span><?php echo esc_html($theme->get('Name')); ?></span>
 								<button type="button" class="edit theme">
-									<?php esc_html_e('Edit In Builder', UpfrontThemeExporter::DOMAIN); ?>
+									<?php esc_html_e('Im Builder bearbeiten', UpfrontThemeExporter::DOMAIN); ?>
 								</button>
 								<button type="button" class="download" alt="" >
 									<span class="btn-label-hidden">
-									<?php esc_html_e('Download theme', UpfrontThemeExporter::DOMAIN); ?>
+									<?php esc_html_e('Download Theme', UpfrontThemeExporter::DOMAIN); ?>
 									</span>
 								</button>
 							</div>
 							<button type="button" class="edit info">
-								<?php esc_html_e('Edit theme info', UpfrontThemeExporter::DOMAIN); ?>
+								<?php esc_html_e('Theme-Informationen bearbeiten', UpfrontThemeExporter::DOMAIN); ?>
 							</button>
 						</a>
 					</div>
@@ -118,7 +118,7 @@
 				</div>
 			<?php } else { ?>
 				<label class="inline"><span class="description">
-					<?php esc_html_e('No existing themes, please create a new one.', UpfrontThemeExporter::DOMAIN); ?>
+					<?php esc_html_e('Keine bestehenden Themes, bitte erstellen Sie ein neues.', UpfrontThemeExporter::DOMAIN); ?>
 				</span></label>
 
 			<?php } ?>
