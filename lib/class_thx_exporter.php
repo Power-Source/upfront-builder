@@ -728,7 +728,7 @@ error_log(debug_backtrace());
 			: false
 		;
 
-		$this->_save_layout_to_template(
+		$save_result = $this->_save_layout_to_template(
 			array(
 				'template' => $data['template'],
 				'content' => $template,
@@ -736,11 +736,23 @@ error_log(debug_backtrace());
 				'functions' => $file
 			)
 		);
+		if (empty($save_result['success'])) {
+			$message = !empty($save_result['message'])
+				? $save_result['message']
+				: __('Could not write exported layout files.', UpfrontThemeExporter::DOMAIN)
+			;
+			$code = !empty($save_result['code']) ? $save_result['code'] : 'filesystem_error';
+			$this->_json->error_msg($message, $code);
+		}
 
 		// Reset all caches on export
 		upfront_exporter_clear_conversion_cache($this->_theme);
 
-		die;
+		$this->_json->out(array(
+			'success' => true,
+			'template' => $data['template'],
+			'layout_file' => !empty($save_result['layout_file']) ? $save_result['layout_file'] : '',
+		));
 	}
 
 	protected function _handle_global_sideregion ($region, $regions = array()) {
@@ -1382,6 +1394,15 @@ error_log(debug_backtrace());
 			Thx_Fs::PATH_LAYOUTS,
 			"{$template}.php"
 		), $content);
+		$layout_file = Thx_Fs::PATH_LAYOUTS . "/{$template}.php";
+		if (false === $result) {
+			return array(
+				'success' => false,
+				'code' => 'layout_write_failed',
+				'message' => __('Could not write exported layout file.', UpfrontThemeExporter::DOMAIN),
+				'layout_file' => $layout_file
+			);
+		}
 
 		// Save properties to settings file
 		$string_properties = array('typography', 'layout_style', 'layout_properties');
@@ -1435,11 +1456,24 @@ error_log(debug_backtrace());
 				$tpl_content = $contents = $this->_template('page-template', $page_layout_data);
 				// Recursive definition yay
 
-				$this->_fs->write(array(
+				$tpl_write = $this->_fs->write(array(
 					"{$tpl_filename}.php",
 				), $tpl_content);
+				if (false === $tpl_write) {
+					return array(
+						'success' => false,
+						'code' => 'page_template_write_failed',
+						'message' => __('Could not write exported page template file.', UpfrontThemeExporter::DOMAIN),
+						'layout_file' => $layout_file
+					);
+				}
 			}
 		}
+
+		return array(
+			'success' => true,
+			'layout_file' => $layout_file
+		);
 	}
 
 	/**
