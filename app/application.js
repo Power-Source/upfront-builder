@@ -442,6 +442,11 @@
 
 		var previousSubapplication = Upfront.Application.current_subapplication;
 		((Upfront || {}).Application || {}).ThemeEditor = new (Upfront.Subapplication.extend({
+
+			_route_save_to_export: function () {
+				Upfront.Events.trigger("command:layout:export_theme");
+			},
+
 			boot: function () {
 				this.listenToOnce(Upfront.Events, 'upfront:layout:loaded', this.set_up_default_styles);
 			},
@@ -477,6 +482,9 @@
 				});
 				this.listenTo(Upfront.Events, "command:layout:edit_structure", edit_structure);
 				this.listenTo(Upfront.Events, "builder:load_theme", Exporter.load_theme);
+				this.listenTo(Upfront.Events, "command:layout:save", this._route_save_to_export);
+				this.listenTo(Upfront.Events, "command:layout:save_as", this._route_save_to_export);
+				this.listenTo(Upfront.Events, "command:layout:publish", this._route_save_to_export);
 
 				this.listenTo(Upfront.Events, "command:themefontsmanager:open", Dialogs.open_theme_fonts_manager);
 				//this.listenToOnce(Upfront.Events, 'command:layout:save_done', Dialogs.first_save_dialog); // Deprecated, we're not doing this anymore
