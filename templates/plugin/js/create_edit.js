@@ -104,12 +104,12 @@ function init_new () {
 					}
 					if (slug) window.location = base_url.replace(/\/theme/, '/' + slug);
 					else window.location.reload();
-				}).error(function(){
+				}).fail(function(){
 					show_error();
 					$me.text(((_thx || {}).l10n || {}).start_building || 'Start Building');
 				});
 
-			}).error(function(){
+			}).fail(function(){
 				show_error();
 			}).always(function () {
 				$me.text(((_thx || {}).l10n || {}).start_building || 'Start Building');
@@ -154,7 +154,7 @@ function init_existing () {
 			}).success(function(response) {
 				$edit_form_content.html(response);
 				$edit_form_container.show();
-			}).error(function(){
+			}).fail(function(){
 				show_error();
 			}).always(function () {
 				// Just clean up the swapped label
@@ -220,7 +220,7 @@ function init_existing () {
 				form: _.map(data, function(value, key){ return key + '=' + escape(value); }).join('&')
 			}).success(function(response) {
 				window.location.reload();
-			}).error(function(){
+			}).fail(function(){
 				show_error();
 			});
 

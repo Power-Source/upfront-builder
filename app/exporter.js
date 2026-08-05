@@ -49,10 +49,10 @@ upfrontrjs.define(function () {
 			if (Upfront.Application.is_builder()) {
 				Upfront.Util.post({
 					action: 'upfront_list_theme_layouts'
-				}).success(function(response){
+				}).done(function(response){
 					me.saved_layouts = response.data;
 					deferred.resolve(response.data);
-				}).error(function(){
+				}).fail(function(){
 					deferred.reject();
 				});
 			} else setTimeout(deferred.reject);
@@ -67,10 +67,10 @@ upfrontrjs.define(function () {
 			if (Upfront.Application.is_builder()) {
 				Upfront.Util.post({
 					action: 'upfront_thx-get-themes'
-				}).success(function(response){
+				}).done(function(response){
 					me.themes = response;
 					deferred.resolve(response);
-				}).error(function(){
+				}).fail(function(){
 					deferred.reject();
 				});
 			} else setTimeout(deferred.reject);
@@ -84,12 +84,12 @@ upfrontrjs.define(function () {
 				Upfront.Util.post({
 					action: 'upfront_thx-create-theme',
 					form: this._build_query(data)
-				}).success(function(response){
+				}).done(function(response){
 					if ( response && response.error )
 						deferred.reject(response.error);
 					else
 						deferred.resolve();
-				}).error(function(){
+				}).fail(function(){
 					deferred.reject();
 				});
 			} else setTimeout(deferred.reject);
@@ -102,7 +102,7 @@ upfrontrjs.define(function () {
 			Upfront.Util.post({
 				action: 'upfront_thx-export-element-styles',
 				data: data
-			}).success(function(response){
+			}).done(function(response){
 				if ( response && response.error ) {
 					Upfront.Views.Editor.notify(response.error);
 					return;
@@ -113,7 +113,7 @@ upfrontrjs.define(function () {
 					Upfront.data.styles[data.elementType].push(data.stylename);
 
 				Upfront.Views.Editor.notify(Upfront.Settings.l10n.global.behaviors.style_exported);
-			}).error(function(){
+			}).fail(function(){
 				Upfront.Views.Editor.notify(Upfront.Settings.l10n.global.behaviors.style_export_fail);
 			});
 		},
@@ -156,6 +156,26 @@ upfrontrjs.define(function () {
 			properties = _.reject(properties, function(property) {
 				return _.contains(['typography', 'layout_style', 'global_regions'], property.name);
 			});
+
+			// CRITICAL FIX: Sync regions from Region Collection to layout.regions before export
+			// This ensures newly created regions are included in the export
+			var layout = Upfront.Application.current_subapplication.layout;
+			var region_collection = layout.get('regions');
+			if (region_collection && region_collection.models) {
+				// This is a Backbone Collection, get the JSON
+				var region_collection_data = region_collection.toJSON();
+				var layout_regions = layout.get('regions');
+				
+				// If layout.regions is an array, sync collection to it
+				if (_.isArray(layout_regions)) {
+					_.each(region_collection_data, function(region_data) {
+						if (!_.findWhere(layout_regions, {name: region_data.name})) {
+							layout_regions.push(region_data);
+						}
+					});
+					layout.set({regions: layout_regions});
+				}
+			}
 
 			data_regions = Upfront.Application.current_subapplication.get_layout_data().regions;
 			if ( Upfront.mainData.save_compression ) {
@@ -200,12 +220,12 @@ upfrontrjs.define(function () {
 			Upfront.Util.post({
 				action: 'upfront_thx-export-layout',
 				data: data
-			}).success(function(response){
+			}).done(function(response){
 				if ( response && response.error )
 					deferred.reject(response.error);
 				else
 					Exporter._save_presets(deferred);
-			}).error(function(){
+			}).fail(function(){
 				deferred.reject();
 			});
 			return deferred.promise();
