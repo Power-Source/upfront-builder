@@ -23,6 +23,7 @@ abstract class Thx_VirtualSubpage extends Upfront_VirtualSubpage {
 		add_filter('upfront-data-storage-key', array($this, 'storage_key_filter'));
 		add_filter('upfront-enable-dev-saving', '__return_false');
 		query_posts('');
+		remove_action('wp_head', 'feed_links_extra', 3);
 	}
 
 	public function get_slug () {
