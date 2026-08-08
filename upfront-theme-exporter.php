@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: Upfront Builder
+Plugin Name: UpFront Builder
 Plugin URI: https://psource.eimen.net/wiki/upfront-dokumentation/upfront-builder-dokumentation/
 Description: Die schnellste und visuellste Art, WordPress-Themes zu erstellen. Jetzt kann jeder WordPress-Themes entwerfen, bauen, exportieren, teilen und verkaufen.
-Version: 1.0.0
+Version: 1.0.1
 Author: PSOURCE
 Text Domain: upfront_thx
 Author URI: https://psource.eimen.net/
@@ -262,7 +262,7 @@ class UpfrontThemeExporter {
 			$toolbar->add_menu(array(
 				'parent' => 'upfront-builder-hub',
 				'id' => 'upfront-builder-current_theme',
-				'title' => __('Modify current theme', self::DOMAIN),
+				'title' => __('Theme bearbeiten', self::DOMAIN),
 				'href' => home_url('/' . UpfrontThemeExporter::get_root_slug() . '/' . $child),
 			));
 		}
@@ -270,7 +270,7 @@ class UpfrontThemeExporter {
 		$toolbar->add_menu(array(
 			'parent' => 'upfront-builder-hub',
 			'id' => 'upfront-builder-create_theme',
-			'title' => __('Create new theme', self::DOMAIN),
+			'title' => __('Neues Theme erstellen', self::DOMAIN),
 			'href' => admin_url('admin.php?page=upfront-builder'),
 		));
 	}

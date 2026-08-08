@@ -55,7 +55,7 @@ class Thx_Admin {
 		$links[] = sprintf(
 			'<a href="%s">%s</a>',
 			esc_url(admin_url('admin.php?page=upfront-builder')),
-			__('Settings', UpfrontThemeExporter::DOMAIN)
+			__('Einstellungen', UpfrontThemeExporter::DOMAIN)
 		);
 		return $links;
 	}
@@ -145,12 +145,12 @@ class Thx_Admin {
 			'admin_ajax' => admin_url('admin-ajax.php'),
 			'l10n' => array(
 				'oops' => __('Oops, something went wrong with processing your request.', UpfrontThemeExporter::DOMAIN),
-				'start_building' => __('Start Building', UpfrontThemeExporter::DOMAIN),
-				'checking' => __('Checking...', UpfrontThemeExporter::DOMAIN),
-				'creating' => __('Creating...', UpfrontThemeExporter::DOMAIN),
-				'select_media' => __('Select or Upload Media Of Your Chosen Persuasion', UpfrontThemeExporter::DOMAIN),
-				'use_media' => __('Use this media', UpfrontThemeExporter::DOMAIN),
-				'loading' => __('Loading data...', UpfrontThemeExporter::DOMAIN),
+				'start_building' => __('Starte UpFront Builder...', UpfrontThemeExporter::DOMAIN),
+				'checking' => __('Prüfe...', UpfrontThemeExporter::DOMAIN),
+				'creating' => __('Erstelle...', UpfrontThemeExporter::DOMAIN),
+				'select_media' => __('Wähle oder lade Medien deiner Wahl hoch', UpfrontThemeExporter::DOMAIN),
+				'use_media' => __('Dieses Medium verwenden', UpfrontThemeExporter::DOMAIN),
+				'loading' => __('Lade Daten...', UpfrontThemeExporter::DOMAIN),
 			),
 		));
 
@@ -284,7 +284,7 @@ class Thx_Admin {
 	private function _permalink_setup_check_notice () {
 		if (get_option('permalink_structure')) return false;
 		$msg = sprintf(
-			__('Upfront Exporter requires Pretty Permalinks to work. Please enable them <a href="%s">here</a>', UpfrontThemeExporter::DOMAIN),
+			__('Upfront Exporter benötigt Pretty Permalinks, um zu funktionieren. Bitte aktiviere sie <a href="%s">hier</a>', UpfrontThemeExporter::DOMAIN),
 			admin_url('/options-permalink.php')
 		);
 		return $msg;
