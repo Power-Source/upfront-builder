@@ -184,7 +184,7 @@ class Thx_Exporter {
 					'type' => $raw[0],
 				),
 			);
-			$type_basename = 'archive' === $raw[0] ? __('Archive %s', UpfrontThemeExporter::DOMAIN) : __('Single %s', UpfrontThemeExporter::DOMAIN);
+			$type_basename = 'archive' === $raw[0] ? __('Archiv %s', UpfrontThemeExporter::DOMAIN) : __('Single %s', UpfrontThemeExporter::DOMAIN);
 			$type_name = '';
 
 			if (!empty($raw[1])) {
@@ -194,7 +194,7 @@ class Thx_Exporter {
 				;
 				// Add a more specific layout entry
 				$layout['layout']['item'] = $raw[0] . '-' . $raw[1];
-			} else $type_name = __('(generic)', UpfrontThemeExporter::DOMAIN);
+			} else $type_name = __('(generisch)', UpfrontThemeExporter::DOMAIN);
 
 			if (empty($layout['layout']['specificity'])) $layout['layout']['specificity'] = $raw_layout;
 
@@ -1969,6 +1969,7 @@ error_log(debug_backtrace());
 			}
 		}
 		$content = $this->_template('style', $data);
+		if (!is_string($content) || empty(trim($content))) return false;
 
 		// Collapse missing properties instead
 		$carr = explode("\n", preg_replace('/\R/u', "\n", $content));
@@ -1977,12 +1978,21 @@ error_log(debug_backtrace());
 			$carr[$cidx] = $cnt;
 		}
 		$content = join("\n", array_values(array_filter($carr)));
+		if (
+			!preg_match('/^Theme Name:\s*\S.*$/mi', $content) ||
+			!preg_match('/^Template:\s*\S.*$/mi', $content)
+		) return false;
 
-		$result = $this->_fs->write(array(
-			'style.css'
-		), $content);
+		$temporary_file = 'style.css.tmp-' . wp_generate_password(12, false, false);
+		$result = $this->_fs->write(array($temporary_file), $content);
+		if (false === $result) return false;
 
-		$theme->cache_delete(); // We need this in order to prevent the theme from using the stale fucking data
+		$temporary_path = $this->_fs->get_path(array($temporary_file));
+		$style_path = $this->_fs->get_path(array('style.css'), false);
+		$result = !empty($temporary_path) && !empty($style_path) && rename($temporary_path, $style_path);
+		if (!$result && !empty($temporary_path) && file_exists($temporary_path)) unlink($temporary_path);
+
+		if ($result) $theme->cache_delete(); // We need this in order to prevent the theme from using the stale fucking data
 		return $result;
 	}
 
@@ -2037,7 +2047,9 @@ error_log(debug_backtrace());
 		if (!file_exists($theme_path)) {
 			$this->_json->error_msg(__('Theme with that directory name does not exist.', UpfrontThemeExporter::DOMAIN), 'theme_exists');
 		}
-		$this->_create_style_file($theme_slug, $form);
+		if (false === $this->_create_style_file($theme_slug, $form)) {
+			$this->_json->error_msg(__('Could not safely update the theme stylesheet. The existing file was left unchanged.', UpfrontThemeExporter::DOMAIN), 'filesystem_error');
+		}
 
 		// Also, let's activate this, if requested
 		$current = get_option('stylesheet');
@@ -2049,7 +2061,7 @@ error_log(debug_backtrace());
 			if (!empty($screenshot_media_id)) $this->_update_theme_screenshot($theme_slug, $screenshot_media_id);
 		}
 
-		die;
+		wp_send_json(array('success' => true));
 	}
 
 	/**
@@ -2565,6 +2577,6 @@ error_log(json_encode(array("_save_post_layout", debug_backtrace())));
 	}
 
 	private function _validate_theme_slug ($slug) {
-		return Thx_Sanitize::php_safe($slug);
+		return Thx_Sanitize::php_safe($slug, false);
 	}
 }

@@ -39,17 +39,18 @@ abstract class Thx_Sanitize {
 	 * Make a string safe to be used in PHP context (e.g. as a var name)
 	 *
 	 * @param string $what String to process
+	 * @param bool $check_declared Whether to reject an already declared class or function
 	 *
 	 * @return mixed Sanitized string or (bool)false on failure
 	 */
-	public static function php_safe ($what) {
+	public static function php_safe ($what, $check_declared=true) {
 		$str = preg_replace('/_+/', '-', preg_replace('/[^_a-z0-9]/i', '_', trim($what)));
 
 		// We can't start with number, or have only numbers
 		if (preg_match('/^[0-9]+$/', $str)) return false; // Only numbers, can't do this
 		if (preg_match('/^[0-9]/', $str)) $str = "uf-{$str}"; // Can't start with numbers
 
-		return Thx_Sanitize::is_not_reserved($str) && Thx_Sanitize::is_not_declared($str)
+		return Thx_Sanitize::is_not_reserved($str) && (!$check_declared || Thx_Sanitize::is_not_declared($str))
 			? $str
 			: false
 		;

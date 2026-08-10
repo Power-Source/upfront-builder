@@ -86,7 +86,7 @@ function init_new () {
 				action: 'upfront_thx-check-theme',
 				name: data['thx-theme-name'] || '',
 				mode: "theme"
-			}).success(function(response) {
+			}).done(function(response) {
 				var error = parseInt((response || {}).error, 10),
 					msg = (response || {}).msg || ''
 				;
@@ -98,7 +98,7 @@ function init_new () {
 					action: 'upfront_thx-create-theme',
 					mode: "theme",
 					form: _.map(data, function(value, key){ return key + '=' + escape(value); }).join('&')
-				}).success(function(response) {
+				}).done(function(response) {
 					if (!slug && response && "theme" in response) {
 						slug = (response.theme || {directory: false}).directory;
 					}
@@ -122,7 +122,7 @@ function init_new () {
 
 function init_existing () {
 	$("#existing-theme")
-		.find(".uf-thx-theme a").click(function (e) {
+		.find(".uf-thx-theme a").on("click", function (e) {
 			e.preventDefault();
 			e.stopPropagation();
 
@@ -151,7 +151,7 @@ function init_existing () {
 				action: 'upfront_thx-get-edit-theme-form',
 				mode: "theme",
 				selected: selected_theme,
-			}).success(function(response) {
+			}).done(function(response) {
 				$edit_form_content.html(response);
 				$edit_form_container.show();
 			}).fail(function(){
@@ -218,10 +218,12 @@ function init_existing () {
 				action: 'upfront_thx-update-theme',
 				mode: "theme",
 				form: _.map(data, function(value, key){ return key + '=' + escape(value); }).join('&')
-			}).success(function(response) {
+			}).done(function(response) {
 				window.location.reload();
-			}).fail(function(){
-				show_error();
+			}).fail(function(response){
+				var error = (((response || {}).responseJSON || {}).error || {}).message || false;
+				if (window.console && window.console.error) window.console.error('Theme update failed:', response);
+				show_error(error);
 			});
 
 			return false;
@@ -241,9 +243,9 @@ function init_existing () {
 				action: 'upfront_thx-clone-theme',
 				mode: "theme",
 				form: _.map(data, function(value, key){ return key + '=' + escape(value); }).join('&')
-			}).success(function (response) {
+			}).done(function (response) {
 				window.location.reload();
-			}).error(function (rsp) {
+			}).fail(function (rsp) {
 				var error = (((rsp || {}).responseJSON || {}).error || {}).message || false;
 				show_error(error);
 				$(".postbox-modal-container #postbox-modal-close").click(); // Close popup modal

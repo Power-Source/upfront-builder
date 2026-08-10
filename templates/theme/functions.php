@@ -8,6 +8,7 @@ include_once get_template_directory() . '/library/class_upfront_theme.php';
 class %name% extends Upfront_ChildTheme {
 
 	protected $_exports_images = %exports_images%;
+	protected $_slider_imported = false;
 
 	public function initialize() {
 		add_filter('upfront_augment_theme_layout', array($this, 'augment_layout'));
