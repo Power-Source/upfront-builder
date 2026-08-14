@@ -180,7 +180,7 @@ $main->add_element("PlainTxt", array (
   array (
     "view_class" => "PlainTxtView",
     "id_slug" => "plain_text",
-    "content" => "<h2 style=\"text-align: center;\">Welcome to the Homepage of ". wp_get_theme()->get("Name") ."</h2>",
+    "content" => "<h2 style=\"text-align: center;\">Willkommen auf der Homepage von ". wp_get_theme()->get("Name") ."</h2>",
     "type" => "PlainTxtModel",
     "element_id" => "text-object-1468409923826-1943",
     "class" => "c24 upfront-plain_txt",
@@ -259,7 +259,7 @@ $main->add_element("PlainTxt", array (
   "id" => "module-1468468185982-1850",
   "options" =>
   array (
-    "content" => "<p style=\"text-align: center;\">Get started building right away.</p>",
+    "content" => "<p style=\"text-align: center;\">Beginne sofort mit dem Bauen deiner Webseite</p>",
     "type" => "PlainTxtModel",
     "view_class" => "PlainTxtView",
     "element_id" => "text-object-1468468185981-1427",

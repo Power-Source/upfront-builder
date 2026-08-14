@@ -59,8 +59,8 @@ class Thx_Kickstart {
 			$this->get_svg() .
 		'</span>';
 		$msg = $this->_has_upfront()
-			? __('%s Activate an Upfront theme to use Builder', UpfrontThemeExporter::DOMAIN)
-			: __('%s You need to have Upfront core present in order to use Builder', UpfrontThemeExporter::DOMAIN)
+			? __('%s Aktiviere ein Upfront-Theme, um den Builder zu nutzen.', UpfrontThemeExporter::DOMAIN)
+			: __('%s UpFront Framework muss vorhanden sein, um UpFront Builder nutzen zu können.', UpfrontThemeExporter::DOMAIN)
 		;
 		array_unshift($meta, sprintf($msg, $icon));
 
@@ -72,10 +72,10 @@ class Thx_Kickstart {
 	 */
 	public function json_start_building () {
 		// Check user prerequisites
-		if (!current_user_can('manage_options')) wp_send_json_error(__('No way.', UpfrontThemeExporter::DOMAIN));
+		if (!current_user_can('manage_options')) wp_send_json_error(__('Auf keinen Fall.', UpfrontThemeExporter::DOMAIN));
 
 		// Can we even do this?
-		if (!$this->_has_upfront()) wp_send_json_error(__('Core not available.', UpfrontThemeExporter::DOMAIN));
+		if (!$this->_has_upfront()) wp_send_json_error(__('UpFront Core nicht verfügbar.', UpfrontThemeExporter::DOMAIN));
 
 		// We can. Yay.
 		switch_theme('upfront');
@@ -88,7 +88,7 @@ class Thx_Kickstart {
 	 */
 	public function json_go_away () {
 		// Check user prerequisites
-		if (!current_user_can('manage_options')) wp_send_json_error(__('No way.', UpfrontThemeExporter::DOMAIN));
+		if (!current_user_can('manage_options')) wp_send_json_error(__('Auf keinen Fall.', UpfrontThemeExporter::DOMAIN));
 
 		update_option(self::FLAG_DISMISS, 'yes');
 
@@ -124,8 +124,8 @@ class Thx_Kickstart {
 			load_template($tpl->path('kickstart_ready'));
 			wp_enqueue_script('kickstart', $tpl->url('js/kickstart.js'), array('jquery'));
 			wp_localize_script('kickstart', '_thx_kickstart', array(
-				'general_error' => __('Ooops, something went wrong.', UpfrontThemeExporter::DOMAIN),
-				'success_msg' => __('All good, please hold on while we redirect you to your Builder page.', UpfrontThemeExporter::DOMAIN),
+				'general_error' => __('Hoppla, etwas ist schiefgelaufen.', UpfrontThemeExporter::DOMAIN),
+				'success_msg' => __('Alles gut, bitte warte während wir Dich zu Deiner UpFront-Builder-Seite weiterleiten.', UpfrontThemeExporter::DOMAIN),
 			));
 		} else {
 			load_template($tpl->path('kickstart_not_ready'));

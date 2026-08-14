@@ -480,7 +480,7 @@ error_log(debug_backtrace());
 
 		// Reserve 'icomoon' family for UpFont
 		if ($name_parts[0] === 'icomoon') {
-			return $this->_json->error_msg(__('Please rename font. Default Upfront font is called "icomoon".', UpfrontThemeExporter::DOMAIN));
+			return $this->_json->error_msg(__('Bitte benenne die Schriftart um. Die Standard-Schriftart von Upfront heißt „icomoon“.', UpfrontThemeExporter::DOMAIN));
 		}
 
 		$font_added = false;
@@ -555,19 +555,19 @@ error_log(debug_backtrace());
 	 */
 	public function remove_icon_font_file () {
 		if (!Upfront_Permissions::current(Upfront_Permissions::BOOT)) {
-			return $this->_json->error_msg(__('Not allowed to do this.', UpfrontThemeExporter::DOMAIN));
+			return $this->_json->error_msg(__('Nicht berechtigt, dies zu tun.', UpfrontThemeExporter::DOMAIN));
 		}
 		$data = stripslashes_deep($_POST);
 		$name = !empty($data['name']) ? $data['name'] : false;
 		$idx = !empty($data['idx']) ? $data['idx'] : false;
 
-		if (empty($name) || empty($idx)) return $this->_json->error_msg(__('Invalid font file info.', UpfrontThemeExporter::DOMAIN));
+		if (empty($name) || empty($idx)) return $this->_json->error_msg(__('Ungültige Schriftartdatei-Informationen.', UpfrontThemeExporter::DOMAIN));
 
 		$full_path = $this->_fs->get_path(array(
 			Thx_Fs::PATH_ICONS,
 			$name
 		), true);
-		if (empty($full_path)) return $this->_json->error_msg(__('Could not locate file.', UpfrontThemeExporter::DOMAIN));
+		if (empty($full_path)) return $this->_json->error_msg(__('Konnte die Datei nicht finden.', UpfrontThemeExporter::DOMAIN));
 
 		$fonts = json_decode($this->_theme_settings->get('icon_fonts'), true);
 		$found = false;
@@ -611,7 +611,7 @@ error_log(debug_backtrace());
 		}
 
 		// Bah :/
-		return $this->_json->error_msg(__('Error removing file.', UpfrontThemeExporter::DOMAIN));
+		return $this->_json->error_msg(__('Fehler beim Entfernen der Datei.', UpfrontThemeExporter::DOMAIN));
 	}
 
 	public function get_stylesheet_directory ($stylesheetDirectory) {
@@ -661,7 +661,7 @@ error_log(debug_backtrace());
 	public function json_export_layout () {
 		$data = $_POST['data'];
 		if (empty($data['theme']) || empty($data['template'])) {
-			$this->_json->error_msg(__('Theme & template must be choosen.', UpfrontThemeExporter::DOMAIN), 'missing_data');
+			$this->_json->error_msg(__('Theme & Template müssen ausgewählt werden.', UpfrontThemeExporter::DOMAIN), 'missing_data');
 		}
 
 		$this->_theme = $data['theme'];
@@ -739,7 +739,7 @@ error_log(debug_backtrace());
 		if (empty($save_result['success'])) {
 			$message = !empty($save_result['message'])
 				? $save_result['message']
-				: __('Could not write exported layout files.', UpfrontThemeExporter::DOMAIN)
+				: __('Konnte die exportierten Layout-Dateien nicht schreiben.', UpfrontThemeExporter::DOMAIN)
 			;
 			$code = !empty($save_result['code']) ? $save_result['code'] : 'filesystem_error';
 			$this->_json->error_msg($message, $code);
@@ -776,17 +776,17 @@ error_log(debug_backtrace());
 	public function json_export_element_styles () {
 		$data = stripslashes_deep($_POST['data']);
 		if (empty($data['stylename']) || empty($data['elementType'])) {
-			$this->_json->error_msg(__('Some data is missing.', UpfrontThemeExporter::DOMAIN), 'missing_data');
+			$this->_json->error_msg(__('Einige Daten fehlen.', UpfrontThemeExporter::DOMAIN), 'missing_data');
 		}
 
 		if ($data['elementType'] === 'layout') {
 			$style = $this->_make_urls_passive_relative($data['styles']);
 			if (upfront_exporter_is_start_page()) {
 				update_option('upfront_new-layout_style', addcslashes($style, "'\\"));
-				$this->_json->out(__('Exported', UpfrontThemeExporter::DOMAIN));
+				$this->_json->out(__('Exportiert', UpfrontThemeExporter::DOMAIN));
 			} else {
 				$this->_theme_settings->set('layout_style', addcslashes($style, "'\\"));
-				$this->_json->out(__('Exported', UpfrontThemeExporter::DOMAIN));
+				$this->_json->out(__('Exportiert', UpfrontThemeExporter::DOMAIN));
 			}
 		}
 
@@ -803,7 +803,7 @@ error_log(debug_backtrace());
 		else {
 			$this->_temporarily_store_export_file($data);
 		}
-		$this->_json->out(__('Exported', UpfrontThemeExporter::DOMAIN));
+		$this->_json->out(__('Exportiert', UpfrontThemeExporter::DOMAIN));
 	}
 
 	/**
@@ -835,12 +835,12 @@ error_log(debug_backtrace());
 
 	public function json_delete_element_styles () {
 		if (upfront_exporter_is_creating()) {
-			$this->_json->error_msg(__('Can\'t do that before theme is created.', UpfrontThemeExporter::DOMAIN));
+			$this->_json->error_msg(__('Das kann nicht gemacht werden, bevor das Theme erstellt wurde.', UpfrontThemeExporter::DOMAIN));
 		}
 
 		$data = $_POST['data'];
 		if (empty($data['stylename']) || empty($data['elementType'])) {
-			$this->_json->error_msg(__('Some data is missing.', UpfrontThemeExporter::DOMAIN), 'missing_data');
+			$this->_json->error_msg(__('Einige Daten fehlen.', UpfrontThemeExporter::DOMAIN), 'missing_data');
 		}
 
 		$stylesheet = !empty($_POST['stylesheet']) && 'upfront' !== $_POST['stylesheet']
@@ -1463,7 +1463,7 @@ error_log(debug_backtrace());
 					return array(
 						'success' => false,
 						'code' => 'page_template_write_failed',
-						'message' => __('Could not write exported page template file.', UpfrontThemeExporter::DOMAIN),
+						'message' => __('Die exportierte Seitenvorlagendatei konnte nicht geschrieben werden.', UpfrontThemeExporter::DOMAIN),
 						'layout_file' => $layout_file
 					);
 				}
@@ -2039,16 +2039,16 @@ error_log(debug_backtrace());
 		$form = $this->_get_theme_form_defaults($form);
 		$theme_slug = $this->_validate_theme_slug($form['thx-theme-slug']);
 		if (empty($theme_slug)) {
-			$this->_json->error_msg(__('Your chosen theme slug is invalid, please try another.', UpfrontThemeExporter::DOMAIN), 'missing_required');
+			$this->_json->error_msg(__('Der gewählte Theme-Slug ist ungültig; bitte versuche es mit einem anderen.', UpfrontThemeExporter::DOMAIN), 'missing_required');
 		}
 		// Check if theme directory already exists
 		$this->_fs->set_theme($theme_slug);
 		$theme_path = $this->_fs->get_root_path();
 		if (!file_exists($theme_path)) {
-			$this->_json->error_msg(__('Theme with that directory name does not exist.', UpfrontThemeExporter::DOMAIN), 'theme_exists');
+			$this->_json->error_msg(__('Ein Theme mit diesem Verzeichnisnamen existiert nicht.', UpfrontThemeExporter::DOMAIN), 'theme_exists');
 		}
 		if (false === $this->_create_style_file($theme_slug, $form)) {
-			$this->_json->error_msg(__('Could not safely update the theme stylesheet. The existing file was left unchanged.', UpfrontThemeExporter::DOMAIN), 'filesystem_error');
+			$this->_json->error_msg(__('Die Theme-Stylesheet-Datei konnte nicht sicher aktualisiert werden. Die vorhandene Datei wurde unverändert gelassen.', UpfrontThemeExporter::DOMAIN), 'filesystem_error');
 		}
 
 		// Also, let's activate this, if requested
@@ -2070,7 +2070,7 @@ error_log(debug_backtrace());
 	public function json_check_theme () {
 		$result = array(
 			'error' => 1,
-			'msg' => __('Your chosen theme slug is invalid, please try another.', UpfrontThemeExporter::DOMAIN),
+			'msg' => __('Der gewählte Theme-Slug ist ungültig; bitte versuche es mit einem anderen.', UpfrontThemeExporter::DOMAIN),
 		);
 
 		$data = wp_unslash($_POST);
@@ -2088,7 +2088,7 @@ error_log(debug_backtrace());
 		$theme_path = $this->_fs->get_root_path();
 		if (file_exists($theme_path)) {
 			$result['error'] = 2;
-			$result['msg'] = __('Theme with that directory name already exists.', UpfrontThemeExporter::DOMAIN);
+			$result['msg'] = __('Ein Theme mit diesem Verzeichnisnamen existiert bereits.', UpfrontThemeExporter::DOMAIN);
 			return wp_send_json($result);
 		}
 
@@ -2105,7 +2105,7 @@ error_log(debug_backtrace());
 			if (!empty($theme) && !empty($theme->name) && !empty($theme->homepage)) {
 				$result['error'] = 3; // So we got a result, and it's a conflict
 				$result['msg'] = sprintf(
-					__('Detected conflict with %s theme in wordpress.org public repository: %s', UpfrontThemeExporter::DOMAIN),
+					__('Konflikt mit dem %s-Theme im öffentlichen Repository von wordpress.org festgestellt: %s', UpfrontThemeExporter::DOMAIN),
 					esc_html($theme->name), esc_url($theme->homepage)
 				);
 				return wp_send_json($result);
@@ -2115,7 +2115,7 @@ error_log(debug_backtrace());
 		// We got this far? We're all good!
 		return wp_send_json(array(
 			'error' => 0,
-			'msg' => __('All good', UpfrontThemeExporter::DOMAIN),
+			'msg' => __('Alles gut', UpfrontThemeExporter::DOMAIN),
 		));
 	}
 
@@ -2127,33 +2127,33 @@ error_log(debug_backtrace());
 
 		// Check required fields
 		if (empty($form['thx-theme-slug']) || empty($form['thx-theme-name']) || empty($form['thx-theme-template'])) {
-			$this->_json->error_msg(__('Please check required fields.', UpfrontThemeExporter::DOMAIN), 'missing_required');
+			$this->_json->error_msg(__('Bitte überprüfe die erforderlichen Felder.', UpfrontThemeExporter::DOMAIN), 'missing_required');
 		}
 
 		$theme_slug = $this->_validate_theme_slug($form['thx-theme-slug']);
 		if (empty($theme_slug)) {
-			$this->_json->error_msg(__('Your chosen theme slug is invalid, please try another.', UpfrontThemeExporter::DOMAIN), 'missing_required');
+			$this->_json->error_msg(__('Der gewählte Theme-Slug ist ungültig; bitte versuche es mit einem anderen.', UpfrontThemeExporter::DOMAIN), 'missing_required');
 		}
 
 		// Check if theme directory already exists
 		$this->_fs->set_theme($theme_slug);
 		$theme_path = $this->_fs->get_root_path();
 		if (file_exists($theme_path)) {
-			$this->_json->error_msg(__('Theme with that directory name already exists.', UpfrontThemeExporter::DOMAIN), 'theme_exists');
+			$this->_json->error_msg(__('Ein Theme mit diesem Verzeichnisnamen existiert bereits.', UpfrontThemeExporter::DOMAIN), 'theme_exists');
 		}
 		if (!$this->_fs->mkdir($theme_path)) {
-			$this->_json->error_msg(__('Could not create the theme directory. Please check filesystem permissions.', UpfrontThemeExporter::DOMAIN), 'filesystem_error');
+			$this->_json->error_msg(__('Das Theme-Verzeichnis konnte nicht erstellt werden. Bitte überprüfe die Dateisystemberechtigungen.', UpfrontThemeExporter::DOMAIN), 'filesystem_error');
 		}
 
 		// Write style.css with theme variables
 		if (false === $this->_create_style_file($theme_slug, $form)) {
-			$this->_json->error_msg(__('Could not write the theme stylesheet.', UpfrontThemeExporter::DOMAIN), 'filesystem_error');
+			$this->_json->error_msg(__('Das Theme-Stylesheet konnte nicht geschrieben werden.', UpfrontThemeExporter::DOMAIN), 'filesystem_error');
 		}
 
 		// Add directories
 		foreach (array(Thx_Fs::PATH_LAYOUTS, Thx_Fs::PATH_IMAGES, Thx_Fs::PATH_UI) as $directory) {
 			if (!$this->_fs->mkdir($this->_fs->get_path($directory, false))) {
-				$this->_json->error_msg(__('Could not create the required theme directories.', UpfrontThemeExporter::DOMAIN), 'filesystem_error');
+				$this->_json->error_msg(__('Die erforderlichen Theme-Verzeichnisse konnten nicht erstellt werden.', UpfrontThemeExporter::DOMAIN), 'filesystem_error');
 			}
 		}
 
@@ -2164,7 +2164,7 @@ error_log(debug_backtrace());
 
 		// Write functions.php to add stylesheet for theme
 		if (false === $this->_create_functions_file($theme_slug)) {
-			$this->_json->error_msg(__('Could not write the theme functions file.', UpfrontThemeExporter::DOMAIN), 'filesystem_error');
+			$this->_json->error_msg(__('Die Theme-Funktionsdatei konnte nicht geschrieben werden.', UpfrontThemeExporter::DOMAIN), 'filesystem_error');
 		}
 
 		// Adding default layouts
@@ -2193,7 +2193,7 @@ error_log(debug_backtrace());
 			}
 			//file_put_contents($destination_file, $content);
 			if (false === $this->_fs->write($destination_file, $content)) {
-				$this->_json->error_msg(__('Could not write the default theme layouts.', UpfrontThemeExporter::DOMAIN), 'filesystem_error');
+				$this->_json->error_msg(__('Die Standard-Theme-Layouts konnten nicht geschrieben werden.', UpfrontThemeExporter::DOMAIN), 'filesystem_error');
 			}
 		}
 
@@ -2262,7 +2262,7 @@ error_log(debug_backtrace());
 		$old_fs = Thx_Fs::get($old_theme_slug);
 		$old_theme_path = $old_fs->get_root_path();
 		if (!file_exists($old_theme_path)) {
-			return $this->_json->error_msg(__('We were not able to find the original theme.', UpfrontThemeExporter::DOMAIN));
+			return $this->_json->error_msg(__('Wir konnten das ursprüngliche Theme nicht finden.', UpfrontThemeExporter::DOMAIN));
 		}
 
 		$new_fs = Thx_Fs::get($new_theme_slug);
@@ -2277,7 +2277,7 @@ error_log(debug_backtrace());
 			if ($index > 10) break;
 		}
 		if (file_exists($new_theme_path)) {
-			return $this->_json->error_msg(__('We were not able to resolve the new, conflict-free theme slug.', UpfrontThemeExporter::DOMAIN));
+			return $this->_json->error_msg(__('Wir konnten den neuen, konfliktfreien Theme-Slug nicht auflösen.', UpfrontThemeExporter::DOMAIN));
 		}
 
 		// Fake the form slug
@@ -2287,7 +2287,7 @@ error_log(debug_backtrace());
 
 		$list = $old_fs->ls();
 		if (empty($list)) {
-			return $this->_json->error_msg(__('The original theme appears empty.', UpfrontThemeExporter::DOMAIN));
+			return $this->_json->error_msg(__('Das ursprüngliche Theme scheint leer zu sein.', UpfrontThemeExporter::DOMAIN));
 		}
 
 		$old_theme_root_rx = preg_quote($old_theme_path, '/');
@@ -2376,7 +2376,7 @@ error_log(debug_backtrace());
 			));
 			die;
 		} else {
-			$this->_json->error_msg(__('Missing required theme selection.', UpfrontThemeExporter::DOMAIN), 'missing_required');
+			$this->_json->error_msg(__('Es wurde keine erforderliche Theme-Auswahl getroffen.', UpfrontThemeExporter::DOMAIN), 'missing_required');
 		}
 	}
 
@@ -2537,7 +2537,7 @@ error_log(json_encode(array("_save_post_layout", debug_backtrace())));
 
 		return $this->_fs->exists($template_file)
 			? file_get_contents($template_file)
-			: '<p>' . __('some test content', UpfrontThemeExporter::DOMAIN) . '</p>'
+			: '<p>' . __('einige Testinhalte', UpfrontThemeExporter::DOMAIN) . '</p>'
 		;
 	}
 
@@ -2547,7 +2547,7 @@ error_log(json_encode(array("_save_post_layout", debug_backtrace())));
 
 		return $this->_fs->exists($template_file)
 			? file_get_contents($template_file)
-			: '<p>' . __('some styled test content', UpfrontThemeExporter::DOMAIN) . '</p>'
+			: '<p>' . __('einige formatierte Testinhalte', UpfrontThemeExporter::DOMAIN) . '</p>'
 		;
 	}
 
@@ -2560,7 +2560,7 @@ error_log(json_encode(array("_save_post_layout", debug_backtrace())));
 			'ID' => $data['post_id'],
 			'post_type' => (!empty($data['post_type']) ? $data['post_type'] : 'post'),
 			'post_status' => 'publish',
-			'post_title' => __('Sample Post', UpfrontThemeExporter::DOMAIN),
+			'post_title' => __('Beispielbeitrag', UpfrontThemeExporter::DOMAIN),
 			'post_content' => $content,
 			'post_date' => date("Y-m-d H:i:s"),
 			'filter' => 'raw',

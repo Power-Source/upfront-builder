@@ -22,7 +22,7 @@ $content->add_element("PlainTxt", array(
 		"view_class" => "PlainTxtView",
 		"id_slug" => "plaintxt",
 		"has_settings" => 1,
-		"content" => "<p style=\"text-align:center;\">Text element in content</p>",
+		"content" => "<p style=\"text-align:center;\">Textelement im Inhalt</p>",
 		"element_id" => "default-content-text-object",
 		"class" => "c24",
 		"type" => "PlainTxtModel"

@@ -24,7 +24,7 @@ $main->add_element("PlainTxt", array(
 	"options" => array(
 		"view_class" => "PlainTxtView",
 		"id_slug" => "plaintxt",
-		"content" => "<p>Uh oh, somehting went wrong!</p>",
+		"content" => "<p>Oh je, da ist etwas schiefgelaufen!</p>",
 		"element_id" => "default-nav-text-object",
 		"class" => "c24",
 		"type" => "PlainTxtModel",
