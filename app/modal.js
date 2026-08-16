@@ -191,7 +191,7 @@ var LayoutsModal_Available = LayoutsModal_Pane.extend({
 			field.on('changed', this.dispatch_page, this);
 		}
 		field.render();
-		this.$el.html('Select New Layout to Create');
+		this.$el.html('Wähle neues Layout aus:');
 		this.$el.append(field.$el);
 		field.delegateEvents();
 

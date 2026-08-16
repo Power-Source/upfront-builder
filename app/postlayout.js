@@ -246,7 +246,7 @@ upfrontrjs.define([
 			var layout = Upfront.Application.current_subapplication.get_layout_data().layout;
 			if (layout && layout.specificity && (layout.specificity === 'single-page-mpproducts' || layout.specificity === 'single-page-mpcart')) return;
 			var editor = view.object_group_view.editor;
-			if( editor.post.get("post_type") === "post" ){
+			if( editor && editor.post && editor.post.get("post_type") === "post" ){
 				this._setPostDataTestContent(view);
 			}else{
 				this._setDataTestContent(view);

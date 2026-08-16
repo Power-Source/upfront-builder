@@ -4,7 +4,7 @@ Plugin URI: https://cp-psource.github.io/upfront-builder/
 Tags: classicpress, theme, builder, framework
 Requires at least: 4.9
 Tested up to: 5.0
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -108,6 +108,12 @@ Entwerfe, erstelle, exportiere, teile und verkaufe Deine eigenen UpFront-Designs
 
 
 == ChangeLog ==
+
+= 1.0.4 =
+* Fix: Der create_new-Editor lädt die No-Build-Core-Abhängigkeiten von Upfront wieder zuverlässig
+* Fix: Virtuelle Builder-Seiten starten ohne editmode-Parameter direkt im Theme-Modus
+* Fix: Weiße Builder-Seiten durch einen fehlenden Core-Bootstrap verhindert
+* Fix: Post-Data-Inhalte werden auch ohne initialisierten Post-Editor geladen, statt den Builder mit einem JavaScript-Fehler abzubrechen
 
 = 1.0.3 =
 * Bessere Texte und Beschreibungen

@@ -22,8 +22,14 @@ abstract class Thx_VirtualSubpage extends Upfront_VirtualSubpage {
 		add_filter('upfront-storage-key', array($this, 'storage_key_filter'));
 		add_filter('upfront-data-storage-key', array($this, 'storage_key_filter'));
 		add_filter('upfront-enable-dev-saving', '__return_false');
+		add_filter('upfront-load-editor-dependencies', '__return_true');
+		add_filter('upfront-editor-boot-mode', array($this, 'get_editor_mode'));
 		query_posts('');
 		remove_action('wp_head', 'feed_links_extra', 3);
+	}
+
+	public function get_editor_mode () {
+		return 'theme';
 	}
 
 	public function get_slug () {
