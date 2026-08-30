@@ -12,6 +12,7 @@ class Thx_Exporter {
 	private $_theme_settings;
 
 	private $_theme;
+	private $_template;
 
 	protected $_global_regions = array();
 	protected $_global_sideregions = array();

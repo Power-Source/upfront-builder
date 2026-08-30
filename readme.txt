@@ -109,6 +109,9 @@ Entwerfe, erstelle, exportiere, teile und verkaufe Deine eigenen UpFront-Designs
 
 == ChangeLog ==
 
+= 1.0.5 =
+* Fix Creation of dynamic Property
+
 = 1.0.4 =
 * Fix: Der create_new-Editor lädt die No-Build-Core-Abhängigkeiten von Upfront wieder zuverlässig
 * Fix: Virtuelle Builder-Seiten starten ohne editmode-Parameter direkt im Theme-Modus
