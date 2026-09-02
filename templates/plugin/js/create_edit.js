@@ -2,16 +2,22 @@
 ;(function ($, undefined) {
 
 function show_error (msg) {
-	var $error;
+	var error,
+		heading,
+		paragraph;
 
 	msg = msg || ((window._thx || {}).l10n || {}).oops;
 	if (!msg) return false;
 
 	hide_errors();
 
-	$error = $('<div>').addClass('error after-h2 upfront-error');
-	$('<p>').text(msg).appendTo($error);
-	$(".upfront_admin.upfront-builder h1").after($error);
+	error = document.createElement('div');
+	error.className = 'error after-h2 upfront-error';
+	paragraph = document.createElement('p');
+	paragraph.textContent = msg;
+	error.appendChild(paragraph);
+	heading = document.querySelector('.upfront_admin.upfront-builder h1');
+	if (heading) heading.parentNode.insertBefore(error, heading.nextSibling);
 
 	var root_pos = ($(".upfront_admin.upfront-builder .upfront-error").offset() || {}).top || 0,
 	 	top_pos = root_pos - $("#wpadminbar").height()
@@ -61,9 +67,10 @@ function init_new () {
 	var frame,
 		$screenshot = $(".uf-thx-theme_screenshot").find('img'),
 		$selected = $("#existing-theme").find('.uf-thx-theme.selected'),
-		$name = $selected.find('.uf-thx-caption > span').text();
+		$name = $selected.find('.uf-thx-caption > span').text(),
+		themeName = document.querySelector('#existing-theme .theme-name');
 
-	$("#existing-theme .theme-name").text($name);
+	if (themeName) themeName.textContent = $name;
 
 	if ($screenshot.attr("src")) { $screenshot.addClass('nostyle'); }
 
@@ -159,8 +166,11 @@ function init_existing () {
 					ALLOWED_TAGS: ['a', 'button', 'div', 'h2', 'img', 'input', 'label', 'p', 'span', 'textarea'],
 					ALLOWED_ATTR: ['alt', 'checked', 'class', 'for', 'href', 'id', 'placeholder', 'readonly', 'rel', 'src', 'target', 'type', 'value'],
 					RETURN_DOM_FRAGMENT: true
-				});
-				$edit_form_content.empty().append(cleanForm);
+				}),
+					contentElement = $edit_form_content.get(0);
+				if (!contentElement) return show_error();
+				contentElement.textContent = '';
+				contentElement.appendChild(cleanForm);
 				$edit_form_container.show();
 			}).fail(function(){
 				show_error();
@@ -206,7 +216,7 @@ function init_existing () {
 				$edit_form_container = $edit_form.closest('.postbox-modal-container')
 			;
 
-			$edit_form_content.empty();
+			if ($edit_form_content[0]) $edit_form_content[0].textContent = '';
 			$edit_form_container.hide();
 
 			return false;
