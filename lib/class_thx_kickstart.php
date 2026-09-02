@@ -10,6 +10,9 @@
 class Thx_Kickstart {
 
 	const FLAG_DISMISS = 'upfront-thx-kickstart-dismiss';
+	const UPFRONT_RELEASE_API = 'https://api.github.com/repos/Power-Source/upfront/releases/latest';
+	const UPFRONT_RELEASES_URL = 'https://github.com/Power-Source/upfront/releases';
+	const UPFRONT_PACKAGE = 'upfront.zip';
 
 	/**
 	 * Constructor - never for the outside world.
@@ -58,10 +61,13 @@ class Thx_Kickstart {
 		$icon = '<span style="display:block;float:left;margin-right:.2em">' .
 			$this->get_svg() .
 		'</span>';
-		$msg = $this->_has_upfront()
-			? __('%s Aktiviere ein Upfront-Theme, um den Builder zu nutzen.', UpfrontThemeExporter::DOMAIN)
-			: __('%s UpFront Framework muss vorhanden sein, um UpFront Builder nutzen zu können.', UpfrontThemeExporter::DOMAIN)
-		;
+		if ($this->_has_upfront()) {
+			/* translators: %s: Upfront information icon. */
+			$msg = __('%s Aktiviere ein Upfront-Theme, um den Builder zu nutzen.', UpfrontThemeExporter::DOMAIN);
+		} else {
+			/* translators: %s: Upfront information icon. */
+			$msg = __('%s UpFront Framework muss vorhanden sein, um UpFront Builder nutzen zu können.', UpfrontThemeExporter::DOMAIN);
+		}
 		array_unshift($meta, sprintf($msg, $icon));
 
 		return $meta;
@@ -73,14 +79,102 @@ class Thx_Kickstart {
 	public function json_start_building () {
 		// Check user prerequisites
 		if (!current_user_can('manage_options')) wp_send_json_error(__('Auf keinen Fall.', UpfrontThemeExporter::DOMAIN));
+		check_ajax_referer('upfront-kickstart');
 
-		// Can we even do this?
-		if (!$this->_has_upfront()) wp_send_json_error(__('UpFront Core nicht verfügbar.', UpfrontThemeExporter::DOMAIN));
+		if (!$this->_has_upfront()) {
+			$result = $this->_install_upfront();
+			if (is_wp_error($result)) wp_send_json_error($result->get_error_message());
+		}
 
-		// We can. Yay.
 		switch_theme('upfront');
 
 		wp_send_json_success(admin_url('admin.php?page=upfront-builder'));
+	}
+
+	/**
+	 * Installs the latest stable Upfront release from GitHub.
+	 *
+	 * @return bool|WP_Error
+	 */
+	private function _install_upfront () {
+		$release = $this->_get_latest_upfront_release();
+		if (is_wp_error($release)) return $release;
+
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+
+		$package = download_url($release['url'], 300);
+		if (is_wp_error($package)) {
+			return new WP_Error('upfront_download_failed', __('Das UpFront Framework konnte nicht heruntergeladen werden.', UpfrontThemeExporter::DOMAIN));
+		}
+
+		$digest = hash_file('sha256', $package);
+		if (empty($digest) || !hash_equals($release['digest'], $digest)) {
+			@unlink($package);
+			return new WP_Error('upfront_digest_mismatch', __('Die Integritätsprüfung des UpFront-Downloads ist fehlgeschlagen.', UpfrontThemeExporter::DOMAIN));
+		}
+
+		$skin = new Automatic_Upgrader_Skin();
+		$upgrader = new Theme_Upgrader($skin);
+		$result = $upgrader->install($package);
+		if (file_exists($package)) @unlink($package);
+
+		if (is_wp_error($result)) return $result;
+		if (!$result) {
+			$errors = $skin->get_errors();
+			return is_wp_error($errors) && $errors->has_errors()
+				? $errors
+				: new WP_Error('upfront_install_failed', __('Das UpFront Framework konnte nicht installiert werden.', UpfrontThemeExporter::DOMAIN));
+		}
+
+		wp_clean_themes_cache(true);
+		return $this->_has_upfront()
+			? true
+			: new WP_Error('upfront_invalid_package', __('Das installierte Paket ist kein gültiges UpFront Framework.', UpfrontThemeExporter::DOMAIN));
+	}
+
+	/**
+	 * Resolves and validates the official package of the latest stable release.
+	 *
+	 * @return array|WP_Error
+	 */
+	private function _get_latest_upfront_release () {
+		$response = wp_safe_remote_get(self::UPFRONT_RELEASE_API, array(
+			'timeout' => 15,
+			'headers' => array(
+				'Accept' => 'application/vnd.github+json',
+				'User-Agent' => 'Upfront-Builder',
+			),
+		));
+
+		if (is_wp_error($response) || 200 !== wp_remote_retrieve_response_code($response)) {
+			return new WP_Error('upfront_release_unavailable', __('Die aktuelle UpFront-Version konnte nicht von GitHub abgerufen werden.', UpfrontThemeExporter::DOMAIN));
+		}
+
+		$release = json_decode(wp_remote_retrieve_body($response), true);
+		if (!is_array($release) || !empty($release['draft']) || !empty($release['prerelease']) || empty($release['assets'])) {
+			return new WP_Error('upfront_release_invalid', __('GitHub hat keine gültige stabile UpFront-Version geliefert.', UpfrontThemeExporter::DOMAIN));
+		}
+
+		foreach ($release['assets'] as $asset) {
+			if (empty($asset['name']) || self::UPFRONT_PACKAGE !== $asset['name']) continue;
+			if (empty($asset['browser_download_url']) || empty($asset['digest'])) continue;
+			if (0 !== strpos($asset['digest'], 'sha256:')) continue;
+
+			$url = $asset['browser_download_url'];
+			$parts = wp_parse_url($url);
+			$path = !empty($parts['path']) ? $parts['path'] : '';
+			if (empty($parts['scheme']) || 'https' !== $parts['scheme']) continue;
+			if (empty($parts['host']) || 'github.com' !== $parts['host']) continue;
+			if (!preg_match('#^/Power-Source/upfront/releases/download/[^/]+/upfront\.zip$#', $path)) continue;
+
+			return array(
+				'url' => $url,
+				'digest' => substr($asset['digest'], 7),
+			);
+		}
+
+		return new WP_Error('upfront_package_missing', __('Die aktuelle stabile UpFront-Version enthält kein installierbares Theme-Paket.', UpfrontThemeExporter::DOMAIN));
 	}
 
 	/**
@@ -89,6 +183,7 @@ class Thx_Kickstart {
 	public function json_go_away () {
 		// Check user prerequisites
 		if (!current_user_can('manage_options')) wp_send_json_error(__('Auf keinen Fall.', UpfrontThemeExporter::DOMAIN));
+		check_ajax_referer('upfront-kickstart');
 
 		update_option(self::FLAG_DISMISS, 'yes');
 
@@ -120,16 +215,17 @@ class Thx_Kickstart {
 
 		$tpl = Thx_Template::plugin();
 
-		if ($this->_has_upfront()) {
-			load_template($tpl->path('kickstart_ready'));
-			wp_enqueue_script('kickstart', $tpl->url('js/kickstart.js'), array('jquery'));
-			wp_localize_script('kickstart', '_thx_kickstart', array(
-				'general_error' => __('Hoppla, etwas ist schiefgelaufen.', UpfrontThemeExporter::DOMAIN),
-				'success_msg' => __('Alles gut, bitte warte während wir Dich zu Deiner UpFront-Builder-Seite weiterleiten.', UpfrontThemeExporter::DOMAIN),
-			));
-		} else {
-			load_template($tpl->path('kickstart_not_ready'));
-		}
+		$has_upfront = $this->_has_upfront();
+		load_template($tpl->path($has_upfront ? 'kickstart_ready' : 'kickstart_not_ready'));
+		wp_enqueue_script('kickstart', $tpl->url('js/kickstart.js'), array('jquery'));
+		wp_localize_script('kickstart', '_thx_kickstart', array(
+			'nonce' => wp_create_nonce('upfront-kickstart'),
+			'general_error' => __('Hoppla, etwas ist schiefgelaufen.', UpfrontThemeExporter::DOMAIN),
+			'working_msg' => $has_upfront
+				? __('UpFront Framework wird aktiviert...', UpfrontThemeExporter::DOMAIN)
+				: __('Die aktuelle stabile UpFront-Version wird installiert...', UpfrontThemeExporter::DOMAIN),
+			'success_msg' => __('Alles gut, bitte warte während wir Dich zu Deiner UpFront-Builder-Seite weiterleiten.', UpfrontThemeExporter::DOMAIN),
+		));
 	}
 
 	/**

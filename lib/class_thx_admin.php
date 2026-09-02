@@ -306,6 +306,7 @@ class Thx_Admin {
 	private function _permalink_setup_check_notice () {
 		if (get_option('permalink_structure')) return false;
 		$msg = sprintf(
+			/* translators: %s: URL of the permalink settings page. */
 			__('Upfront Builder benötigt Pretty Permalinks, um zu funktionieren. Bitte aktiviere sie <a href="%s">hier</a>', UpfrontThemeExporter::DOMAIN),
 			admin_url('/options-permalink.php')
 		);

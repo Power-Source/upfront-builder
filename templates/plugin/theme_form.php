@@ -34,7 +34,11 @@
 		</div>
 	</div>
 <?php } else { /* inputs for existing theme */ ?>
-	<h2 class="title"><?php echo esc_html(sprintf(__('%s Theme Info', UpfrontThemeExporter::DOMAIN), $name)); ?></h2>
+	<?php
+		/* translators: %s: Theme name. */
+		$theme_info_title = sprintf(__('%s Theme Info', UpfrontThemeExporter::DOMAIN), $name);
+	?>
+	<h2 class="title"><?php echo esc_html($theme_info_title); ?></h2>
 	<div class="uf-thx-theme_info clearfix">
 		<?php if ($is_conflicted) { ?>
 			<div class="notice notice-warning">

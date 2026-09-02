@@ -185,7 +185,13 @@ class Thx_Exporter {
 					'type' => $raw[0],
 				),
 			);
-			$type_basename = 'archive' === $raw[0] ? __('Archiv %s', UpfrontThemeExporter::DOMAIN) : __('Single %s', UpfrontThemeExporter::DOMAIN);
+			if ('archive' === $raw[0]) {
+				/* translators: %s: Archive layout type. */
+				$type_basename = __('Archiv %s', UpfrontThemeExporter::DOMAIN);
+			} else {
+				/* translators: %s: Single layout type. */
+				$type_basename = __('Single %s', UpfrontThemeExporter::DOMAIN);
+			}
 			$type_name = '';
 
 			if (!empty($raw[1])) {
@@ -2106,7 +2112,8 @@ error_log(debug_backtrace());
 			if (!empty($theme) && !empty($theme->name) && !empty($theme->homepage)) {
 				$result['error'] = 3; // So we got a result, and it's a conflict
 				$result['msg'] = sprintf(
-					__('Konflikt mit dem %s-Theme im öffentlichen Repository von wordpress.org festgestellt: %s', UpfrontThemeExporter::DOMAIN),
+					/* translators: 1: Conflicting theme name. 2: Theme repository URL. */
+					__('Konflikt mit dem %1$s-Theme im öffentlichen Repository von wordpress.org festgestellt: %2$s', UpfrontThemeExporter::DOMAIN),
 					esc_html($theme->name), esc_url($theme->homepage)
 				);
 				return wp_send_json($result);

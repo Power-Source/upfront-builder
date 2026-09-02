@@ -9,6 +9,7 @@ Change Log
 - Neuer informativer Builder-Header mit Theme-Status und direktem Zugriff auf den CodePen-Styleguide
 - Modernisierte Entwicklungsumgebung mit Node.js 20+, Dart Sass, ESLint, reproduzierbarem npm-Lockfile und WP-CLI-Übersetzungsworkflow
 - Security: Vier mögliche DOM-XSS-Senken im Theme-Dialog durch sichere Text-APIs und lokal integriertes DOMPurify geschlossen
+- Kickstart installiert bei fehlendem Framework automatisch das offizielle `upfront.zip` der neuesten stabilen GitHub-Release, prüft den SHA-256-Digest und aktiviert Upfront
 
 1.0.4 - 2026-08-16
 ---------------------------------------------------------

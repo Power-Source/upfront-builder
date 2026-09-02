@@ -68,6 +68,7 @@ class Thx_L10n {
 			'no' => __('Nein', UpfrontThemeExporter::DOMAIN),
 
 			// sidebar.js
+			/* translators: %s: Name of the layout currently being edited. */
 			'current_layout' => __('Aktuelles Layout: <b>%s</b>', UpfrontThemeExporter::DOMAIN),
 			'layouts' => __('Layouts', UpfrontThemeExporter::DOMAIN),
 			'media' => __('Medien', UpfrontThemeExporter::DOMAIN),

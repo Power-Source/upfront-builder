@@ -49,10 +49,17 @@
 		if (e && e.preventDefault) e.preventDefault();
 		if (e && e.stopPropagation) e.stopPropagation();
 
-		reset_output_area();
+		var $button = $(e.currentTarget),
+			settings = window._thx_kickstart || {};
+
+		$button.prop('disabled', true);
+		reset_output_area()
+			.text(settings.working_msg || '')
+			.show();
 
 		$.post(ajaxurl, {
-			action: 'upfront-kickstart-start_building'
+			action: 'upfront-kickstart-start_building',
+			_ajax_nonce: settings.nonce
 		}).done(function (response) {
 			var status = (response || {}).success,
 				payload = (response || {}).data
@@ -72,8 +79,10 @@
 			}
 
 			return true;
-		}).error(function () {
+		}).fail(function () {
 			return dispatch_error();
+		}).always(function () {
+			$button.prop('disabled', false);
 		});
 
 		return false;
@@ -91,7 +100,8 @@
 		if (e && e.stopPropagation) e.stopPropagation();
 
 		$.post(ajaxurl, {
-			action: 'upfront-kickstart-go_away'
+			action: 'upfront-kickstart-go_away',
+			_ajax_nonce: (window._thx_kickstart || {}).nonce
 		}).done(function () {
 			var el_notice = $(".wp-admin .notice.uf-thx-kickstart");
 

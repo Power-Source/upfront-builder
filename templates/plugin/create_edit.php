@@ -48,7 +48,10 @@
 			</p>
 			<div class="upfront-builder-header__status">
 				<span><?php esc_html_e('Aktives Theme', UpfrontThemeExporter::DOMAIN); ?>: <strong><?php echo esc_html(wp_get_theme($current_theme)->get('Name')); ?></strong></span>
-				<span><?php printf(esc_html(_n('%s Upfront-Theme verfügbar', '%s Upfront-Themes verfügbar', count($themes), UpfrontThemeExporter::DOMAIN)), number_format_i18n(count($themes))); ?></span>
+				<span><?php
+					/* translators: %s: Number of available Upfront themes. */
+					printf(esc_html(_n('%s Upfront-Theme verfügbar', '%s Upfront-Themes verfügbar', count($themes), UpfrontThemeExporter::DOMAIN)), number_format_i18n(count($themes)));
+				?></span>
 			</div>
 		</div>
 		<nav class="upfront-builder-header__actions" aria-label="<?php esc_attr_e('Schnellzugriff', UpfrontThemeExporter::DOMAIN); ?>">

@@ -1,5 +1,7 @@
 # Upfront Builder
 
+**Deutsch** | [**English**](README-en.md)
+
 [![Version](https://img.shields.io/badge/Version-1.0.5-2271b1?style=flat-square)](readme.txt)
 ![PHP](https://img.shields.io/badge/PHP-8.0%2B-777bb4?style=flat-square&logo=php&logoColor=white)
 ![WordPress](https://img.shields.io/badge/WordPress-bis%207.1.0-21759b?style=flat-square&logo=wordpress&logoColor=white)
@@ -30,7 +32,7 @@ Upfront Builder erweitert das Upfront-Framework um eine vollständige Arbeitsumg
 
 ### 1. Upfront vorbereiten
 
-Der Builder benötigt das installierte Upfront-Framework und ein aktives Upfront-basiertes Theme. Fehlt eine passende Theme-Grundlage, führt der integrierte Kickstart durch die Aktivierung. Außerdem müssen sprechende Permalinks aktiviert sein.
+Der Builder benötigt das Upfront-Framework und ein aktives Upfront-basiertes Theme. Fehlt das Framework, lädt der integrierte Kickstart automatisch das Theme-Paket der [aktuellsten stabilen GitHub-Release](https://github.com/Power-Source/upfront/releases), prüft dessen SHA-256-Integrität, installiert es und aktiviert es. Ist Upfront bereits installiert, aber nicht aktiv, übernimmt der Kickstart nur die Aktivierung. Außerdem müssen sprechende Permalinks aktiviert sein.
 
 ### 2. Theme erstellen oder auswählen
 
@@ -55,20 +57,21 @@ Der Builder startet im Frontend-Kontext der Website. Dort bearbeitest Du Layouts
 
 ## Typischer Workflow
 
-1. Upfront-Framework und Upfront Builder installieren und aktivieren.
+1. Upfront Builder installieren und aktivieren.
 2. Sprechende Permalinks einschalten.
-3. Unter **Upfront > Upfront Builder** ein Theme erstellen oder auswählen.
-4. Grundlayout, globale Stile und wiederverwendbare Regionen definieren.
-5. Einzel-, Archiv- und Sonderseiten gestalten und responsiv prüfen.
-6. Theme-Informationen und Vorschaubild vervollständigen.
-7. Theme speichern, herunterladen und auf einer Testinstallation prüfen.
+3. Falls nötig, das Upfront-Framework über den Kickstart installieren und aktivieren lassen.
+4. Unter **Upfront > Upfront Builder** ein Theme erstellen oder auswählen.
+5. Grundlayout, globale Stile und wiederverwendbare Regionen definieren.
+6. Einzel-, Archiv- und Sonderseiten gestalten und responsiv prüfen.
+7. Theme-Informationen und Vorschaubild vervollständigen.
+8. Theme speichern, herunterladen und auf einer Testinstallation prüfen.
 
 ## Voraussetzungen
 
 - ClassicPress
 - PHP 7.0 oder neuer
-- installiertes Upfront-Framework
-- aktives Upfront-basiertes Theme
+- Upfront-Framework oder ausgehender HTTPS-Zugriff auf GitHub für die automatische Installation
+- aktives Upfront-basiertes Theme nach Abschluss des Kickstarts
 - aktivierte sprechende Permalinks
 - Administrationsrechte für Einrichtung und Export
 
@@ -78,7 +81,7 @@ Für die Entwicklung am Plugin werden zusätzlich Node.js 20.19 oder neuer, npm 
 
 1. Das Verzeichnis `upfront-builder` nach `wp-content/plugins/` kopieren oder das Plugin-Paket über die Plugin-Verwaltung hochladen.
 2. **Upfront Builder** in ClassicPress aktivieren.
-3. Sicherstellen, dass das Upfront-Framework installiert und ein Upfront-Theme aktiv ist.
+3. Falls Upfront fehlt, im eingeblendeten Hinweis **Framework installieren und Builder starten** wählen. Der Builder verwendet ausschließlich das offizielle Asset `upfront.zip` der neuesten stabilen Release.
 4. Unter **Einstellungen > Permalinks** eine sprechende Struktur auswählen.
 5. **Upfront > Upfront Builder** öffnen.
 
