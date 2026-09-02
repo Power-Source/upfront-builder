@@ -1,9 +1,26 @@
 {
   "name": "upfront-theme-exporter",
+  "private": true,
   "description": "Tools for Upfront Theme Exporter",
+  "scripts": {
+    "build": "grunt build",
+    "build:css": "grunt sass",
+    "build:i18n": "wp i18n make-pot . languages/upfront_thx.pot --ignore-domain --exclude=node_modules,vendor",
+    "check": "npm run lint:js && npm run lint:php && npm run check:sass",
+    "check:sass": "sass --no-source-map styles/sass/exporter.scss > /dev/null",
+    "lint:js": "eslint Gruntfile.js eslint.config.js app templates/plugin/js",
+    "lint:php": "find . -name '*.php' -not -path './node_modules/*' -not -path './vendor/*' -not -path './templates/theme/*' -print0 | xargs -0 -n1 php -l",
+    "test": "npm run check"
+  },
+  "engines": {
+    "node": ">=20.19.0",
+    "npm": ">=10"
+  },
+  "packageManager": "npm@10.9.3",
   "devDependencies": {
-    "grunt-cli": "~0.1.13",
-    "grunt-sass": "^1.0.0",
-    "grunt-wp-i18n": "^0.4.9"
+    "eslint": "^10.9.1",
+    "grunt": "^1.6.3",
+    "grunt-cli": "^1.5.0",
+    "sass": "^1.103.1"
   }
 }

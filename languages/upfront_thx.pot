@@ -1,215 +1,280 @@
-# Copyright (C) 2017 WPMU DEV
+# Copyright (C) 2026 PSOURCE
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Upfront Builder 1.0.0\n"
-"Report-Msgid-Bugs-To: "
-"http://wordpress.org/support/plugin/upfront-theme-exporter\n"
-"POT-Creation-Date: 2017-07-25 09:12:50+00:00\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"Project-Id-Version: UpFront Builder 1.0.4\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/upfront-builder\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"X-Generator: grunt-wp-i18n 0.4.9\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-09-02T02:49:00+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
 
-#: lib/class_thx_admin.php:60
-msgid "Settings"
+#. Plugin Name of the plugin
+#: upfront-theme-exporter.php
+#: lib/class_thx_l10n.php:46
+#: upfront-theme-exporter.php:272
+msgid "UpFront Builder"
 msgstr ""
 
-#: lib/class_thx_admin.php:167
+#. Plugin URI of the plugin
+#: upfront-theme-exporter.php
+msgid "https://psource.eimen.net/wiki/upfront-dokumentation/upfront-builder-dokumentation/"
+msgstr ""
+
+#. Description of the plugin
+#: upfront-theme-exporter.php
+msgid "Die schnellste und visuellste Art, WordPress-Themes zu erstellen. Jetzt kann jeder WordPress-Themes entwerfen, bauen, exportieren, teilen und verkaufen."
+msgstr ""
+
+#. Author of the plugin
+#: upfront-theme-exporter.php
+msgid "PSOURCE"
+msgstr ""
+
+#. Author URI of the plugin
+#: upfront-theme-exporter.php
+msgid "https://psource.eimen.net/"
+msgstr ""
+
+#: lib/class_thx_admin.php:58
+msgid "Einstellungen"
+msgstr ""
+
+#: lib/class_thx_admin.php:149
 msgid "Oops, something went wrong with processing your request."
 msgstr ""
 
-#: lib/class_thx_admin.php:168 templates/plugin/kickstart_ready.php:8
-msgid "Start Building"
+#: lib/class_thx_admin.php:150
+msgid "Starte UpFront Builder..."
 msgstr ""
 
-#: lib/class_thx_admin.php:169
-msgid "Checking..."
+#: lib/class_thx_admin.php:151
+msgid "Prüfe..."
 msgstr ""
 
-#: lib/class_thx_admin.php:170
-msgid "Creating..."
+#: lib/class_thx_admin.php:152
+msgid "Erstelle..."
 msgstr ""
 
-#: lib/class_thx_admin.php:171
-msgid "Select or Upload Media Of Your Chosen Persuasion"
+#: lib/class_thx_admin.php:153
+msgid "Wähle oder lade Medien deiner Wahl hoch"
 msgstr ""
 
-#: lib/class_thx_admin.php:172
-msgid "Use this media"
+#: lib/class_thx_admin.php:154
+msgid "Dieses Medium verwenden"
 msgstr ""
 
-#: lib/class_thx_admin.php:173
-msgid "Loading data..."
+#: lib/class_thx_admin.php:155
+msgid "Lade Daten..."
 msgstr ""
 
-#: lib/class_thx_admin.php:307
-msgid ""
-"Upfront Exporter requires Pretty Permalinks to work. Please enable them <a "
-"href=\"%s\">here</a>"
+#: lib/class_thx_admin.php:306
+#, php-format
+msgid "Upfront Builder benötigt Pretty Permalinks, um zu funktionieren. Bitte aktiviere sie <a href=\"%s\">hier</a>"
 msgstr ""
 
-#: lib/class_thx_exporter.php:186
-msgid "Archive %s"
+#: lib/class_thx_exporter.php:188
+#, php-format
+msgid "Archiv %s"
 msgstr ""
 
-#: lib/class_thx_exporter.php:186
+#: lib/class_thx_exporter.php:188
+#, php-format
 msgid "Single %s"
 msgstr ""
 
-#: lib/class_thx_exporter.php:196
-msgid "(generic)"
+#: lib/class_thx_exporter.php:198
+msgid "(generisch)"
 msgstr ""
 
-#: lib/class_thx_exporter.php:445
-msgid "Please rename font. Default Upfront font is called \"icomoon\"."
+#: lib/class_thx_exporter.php:484
+msgid "Bitte benenne die Schriftart um. Die Standard-Schriftart von Upfront heißt „icomoon“."
 msgstr ""
 
-#: lib/class_thx_exporter.php:520
-msgid "Not allowed to do this."
+#: lib/class_thx_exporter.php:559
+msgid "Nicht berechtigt, dies zu tun."
 msgstr ""
 
-#: lib/class_thx_exporter.php:526
-msgid "Invalid font file info."
+#: lib/class_thx_exporter.php:565
+msgid "Ungültige Schriftartdatei-Informationen."
 msgstr ""
 
-#: lib/class_thx_exporter.php:532
-msgid "Could not locate file."
+#: lib/class_thx_exporter.php:571
+msgid "Konnte die Datei nicht finden."
 msgstr ""
 
-#: lib/class_thx_exporter.php:576
-msgid "Error removing file."
+#: lib/class_thx_exporter.php:615
+msgid "Fehler beim Entfernen der Datei."
 msgstr ""
 
-#: lib/class_thx_exporter.php:626
-msgid "Theme & template must be choosen."
+#: lib/class_thx_exporter.php:665
+msgid "Theme & Template müssen ausgewählt werden."
 msgstr ""
 
-#: lib/class_thx_exporter.php:729 lib/class_thx_exporter.php:793
-msgid "Some data is missing."
+#: lib/class_thx_exporter.php:743
+msgid "Konnte die exportierten Layout-Dateien nicht schreiben."
 msgstr ""
 
-#: lib/class_thx_exporter.php:736 lib/class_thx_exporter.php:739
-#: lib/class_thx_exporter.php:756
-msgid "Exported"
+#: lib/class_thx_exporter.php:780
+#: lib/class_thx_exporter.php:844
+msgid "Einige Daten fehlen."
 msgstr ""
 
-#: lib/class_thx_exporter.php:788
-msgid "Can't do that before theme is created."
+#: lib/class_thx_exporter.php:787
+#: lib/class_thx_exporter.php:790
+#: lib/class_thx_exporter.php:807
+msgid "Exportiert"
 msgstr ""
 
-#: lib/class_thx_exporter.php:1959 lib/class_thx_exporter.php:1988
-#: lib/class_thx_exporter.php:2050
-msgid "Your chosen theme slug is invalid, please try another."
+#: lib/class_thx_exporter.php:839
+msgid "Das kann nicht gemacht werden, bevor das Theme erstellt wurde."
 msgstr ""
 
-#: lib/class_thx_exporter.php:1965
-msgid "Theme with that directory name does not exist."
+#: lib/class_thx_exporter.php:1403
+msgid "Could not write exported layout file."
 msgstr ""
 
-#: lib/class_thx_exporter.php:2006 lib/class_thx_exporter.php:2057
-msgid "Theme with that directory name already exists."
+#: lib/class_thx_exporter.php:1467
+msgid "Die exportierte Seitenvorlagendatei konnte nicht geschrieben werden."
 msgstr ""
 
-#: lib/class_thx_exporter.php:2023
-msgid "Detected conflict with %s theme in wordpress.org public repository: %s"
+#: lib/class_thx_exporter.php:2043
+#: lib/class_thx_exporter.php:2074
+#: lib/class_thx_exporter.php:2136
+msgid "Der gewählte Theme-Slug ist ungültig; bitte versuche es mit einem anderen."
 msgstr ""
 
-#: lib/class_thx_exporter.php:2033
-msgid "All good"
+#: lib/class_thx_exporter.php:2049
+msgid "Ein Theme mit diesem Verzeichnisnamen existiert nicht."
 msgstr ""
 
-#: lib/class_thx_exporter.php:2045
-msgid "Please check required fields."
+#: lib/class_thx_exporter.php:2052
+msgid "Die Theme-Stylesheet-Datei konnte nicht sicher aktualisiert werden. Die vorhandene Datei wurde unverändert gelassen."
+msgstr ""
+
+#: lib/class_thx_exporter.php:2092
+#: lib/class_thx_exporter.php:2143
+msgid "Ein Theme mit diesem Verzeichnisnamen existiert bereits."
+msgstr ""
+
+#: lib/class_thx_exporter.php:2109
+#, php-format
+msgid "Konflikt mit dem %s-Theme im öffentlichen Repository von wordpress.org festgestellt: %s"
+msgstr ""
+
+#: lib/class_thx_exporter.php:2119
+msgid "Alles gut"
+msgstr ""
+
+#: lib/class_thx_exporter.php:2131
+msgid "Bitte überprüfe die erforderlichen Felder."
+msgstr ""
+
+#: lib/class_thx_exporter.php:2146
+msgid "Das Theme-Verzeichnis konnte nicht erstellt werden. Bitte überprüfe die Dateisystemberechtigungen."
+msgstr ""
+
+#: lib/class_thx_exporter.php:2151
+msgid "Das Theme-Stylesheet konnte nicht geschrieben werden."
+msgstr ""
+
+#: lib/class_thx_exporter.php:2157
+msgid "Die erforderlichen Theme-Verzeichnisse konnten nicht erstellt werden."
 msgstr ""
 
 #: lib/class_thx_exporter.php:2168
-msgid "We were not able to find the original theme."
+msgid "Die Theme-Funktionsdatei konnte nicht geschrieben werden."
 msgstr ""
 
-#: lib/class_thx_exporter.php:2183
-msgid "We were not able to resolve the new, conflict-free theme slug."
+#: lib/class_thx_exporter.php:2197
+msgid "Die Standard-Theme-Layouts konnten nicht geschrieben werden."
 msgstr ""
 
-#: lib/class_thx_exporter.php:2193
-msgid "The original theme appears empty."
+#: lib/class_thx_exporter.php:2266
+msgid "Wir konnten das ursprüngliche Theme nicht finden."
 msgstr ""
 
-#: lib/class_thx_exporter.php:2282
-msgid "Missing required theme selection."
+#: lib/class_thx_exporter.php:2281
+msgid "Wir konnten den neuen, konfliktfreien Theme-Slug nicht auflösen."
 msgstr ""
 
-#: lib/class_thx_exporter.php:2443
-msgid "some test content"
+#: lib/class_thx_exporter.php:2291
+msgid "Das ursprüngliche Theme scheint leer zu sein."
 msgstr ""
 
-#: lib/class_thx_exporter.php:2453
-msgid "some styled test content"
+#: lib/class_thx_exporter.php:2380
+msgid "Es wurde keine erforderliche Theme-Auswahl getroffen."
 msgstr ""
 
-#: lib/class_thx_exporter.php:2466
-msgid "Sample Post"
+#: lib/class_thx_exporter.php:2541
+msgid "einige Testinhalte"
+msgstr ""
+
+#: lib/class_thx_exporter.php:2551
+msgid "einige formatierte Testinhalte"
+msgstr ""
+
+#: lib/class_thx_exporter.php:2564
+msgid "Beispielbeitrag"
 msgstr ""
 
 #: lib/class_thx_kickstart.php:62
-msgid "%s Activate an Upfront theme to use Builder"
+#, php-format
+msgid "%s Aktiviere ein Upfront-Theme, um den Builder zu nutzen."
 msgstr ""
 
 #: lib/class_thx_kickstart.php:63
-msgid "%s You need to have Upfront core present in order to use Builder"
+#, php-format
+msgid "%s UpFront Framework muss vorhanden sein, um UpFront Builder nutzen zu können."
 msgstr ""
 
-#: lib/class_thx_kickstart.php:75 lib/class_thx_kickstart.php:91
-msgid "No way."
+#: lib/class_thx_kickstart.php:75
+#: lib/class_thx_kickstart.php:91
+msgid "Auf keinen Fall."
 msgstr ""
 
 #: lib/class_thx_kickstart.php:78
-msgid "Core not available."
+msgid "UpFront Core nicht verfügbar."
 msgstr ""
 
 #: lib/class_thx_kickstart.php:127
-msgid "Ooops, something went wrong."
+msgid "Hoppla, etwas ist schiefgelaufen."
 msgstr ""
 
 #: lib/class_thx_kickstart.php:128
-msgid "All good, please hold on while we redirect you to your Builder page."
-msgstr ""
-
-#: lib/class_thx_l10n.php:46 upfront-theme-exporter.php:273
-msgid "Builder"
+msgid "Alles gut, bitte warte während wir Dich zu Deiner UpFront-Builder-Seite weiterleiten."
 msgstr ""
 
 #: lib/class_thx_l10n.php:48
-msgid ""
-"The Upfront builder may take a while to load (especially first time), "
-"please hang in there :)"
+msgid "Der Upfront Builder kann eine Weile zum Laden brauchen (besonders beim ersten Mal), bitte hab Geduld :)"
 msgstr ""
 
 #: lib/class_thx_l10n.php:49
-msgid "Page name (leave empty for single-page.php)"
+msgid "Seitename (leer lassen für single-page.php)"
 msgstr ""
 
 #: lib/class_thx_l10n.php:50
-msgid "Start fresh"
+msgid "Starte Standardlayout"
 msgstr ""
 
 #: lib/class_thx_l10n.php:51
-msgid "Start from existing layout"
+msgid "Beginne mit bestehendem Layout"
 msgstr ""
 
 #: lib/class_thx_l10n.php:52
-msgid "Create New Layout"
+msgid "Neues Layout erstellen"
 msgstr ""
 
 #: lib/class_thx_l10n.php:53
-msgid "Edit Saved Layout"
+msgid "Gespeichertes Layout bearbeiten"
 msgstr ""
 
 #: lib/class_thx_l10n.php:54
-msgid "Save Theme"
+msgid "Theme speichern"
 msgstr ""
 
 #: lib/class_thx_l10n.php:55
@@ -217,59 +282,62 @@ msgid "Responsive"
 msgstr ""
 
 #: lib/class_thx_l10n.php:56
-msgid "Edit Grid"
+msgid "Grid bearbeiten"
 msgstr ""
 
 #: lib/class_thx_l10n.php:59
-msgid "Manage Layouts"
+msgid "Layouts verwalten"
 msgstr ""
 
 #: lib/class_thx_l10n.php:60
-msgid "Create Layout"
+msgid "Layout erstellen"
 msgstr ""
 
 #: lib/class_thx_l10n.php:61
-msgid "Edit Layout"
+msgid "Layout bearbeiten"
 msgstr ""
 
 #: lib/class_thx_l10n.php:62
-msgid "Edit Existing Layout"
+msgid "Bestehendes Layout bearbeiten"
 msgstr ""
 
 #: lib/class_thx_l10n.php:63
-msgid "Loading..."
+msgid "UpFront Builder lädt..."
 msgstr ""
 
 #: lib/class_thx_l10n.php:64
-msgid "Activate Theme"
+#: templates/plugin/theme_form.php:116
+msgid "Theme aktivieren"
 msgstr ""
 
 #: lib/class_thx_l10n.php:65
-msgid "Do you want to activate"
+msgid "Aktiviere das Theme:"
 msgstr ""
 
 #: lib/class_thx_l10n.php:66
-msgid "theme"
+msgid "Theme"
 msgstr ""
 
 #: lib/class_thx_l10n.php:67
-msgid "Yes"
+msgid "Ja"
 msgstr ""
 
 #: lib/class_thx_l10n.php:68
-msgid "No"
+msgid "Nein"
 msgstr ""
 
 #: lib/class_thx_l10n.php:71
-msgid "Current Layout: <b>%s</b>"
+#, php-format
+msgid "Aktuelles Layout: <b>%s</b>"
 msgstr ""
 
 #: lib/class_thx_l10n.php:72
 msgid "Layouts"
 msgstr ""
 
-#: lib/class_thx_l10n.php:73 lib/class_thx_l10n.php:74
-msgid "Media"
+#: lib/class_thx_l10n.php:73
+#: lib/class_thx_l10n.php:74
+msgid "Medien"
 msgstr ""
 
 #: lib/class_thx_l10n.php:75
@@ -277,7 +345,7 @@ msgid "UI / Sprites"
 msgstr ""
 
 #: lib/class_thx_l10n.php:76
-msgid "My Themes"
+msgid "Meine Themes"
 msgstr ""
 
 #: lib/class_thx_l10n.php:77
@@ -285,304 +353,221 @@ msgid "Themes"
 msgstr ""
 
 #: lib/class_thx_l10n.php:80
-msgid "Image Variant"
+msgid "Bildvariante"
 msgstr ""
 
 #: lib/class_thx_l10n.php:81
-msgid "Edit Content Layout"
+msgid "Inhalt Layout bearbeiten"
 msgstr ""
 
 #: lib/class_thx_l10n.php:82
-msgid "Edit Image Insert"
+msgid "Bild Einfügen bearbeiten"
 msgstr ""
 
 #: lib/class_thx_l10n.php:83
-msgid "Name This Insert:"
+msgid "Dieses Einfügen benennen:"
 msgstr ""
 
 #: lib/class_thx_l10n.php:84
-msgid "Edit CSS"
+msgid "CSS bearbeiten"
 msgstr ""
 
-#: lib/class_thx_l10n.php:85 lib/class_thx_l10n.php:86
+#: lib/class_thx_l10n.php:85
+#: lib/class_thx_l10n.php:86
 msgid "Wrapper"
 msgstr ""
 
-#: lib/class_thx_l10n.php:87 lib/class_thx_l10n.php:88
-msgid "Image"
+#: lib/class_thx_l10n.php:87
+#: lib/class_thx_l10n.php:88
+msgid "Bild"
 msgstr ""
 
-#: lib/class_thx_l10n.php:89 lib/class_thx_l10n.php:90
-msgid "Caption"
+#: lib/class_thx_l10n.php:89
+#: lib/class_thx_l10n.php:90
+msgid "Beschriftung"
 msgstr ""
 
 #: lib/class_thx_l10n.php:93
-msgid ""
-"<p>This is builder interface, this is where you create/edit a distributable "
-"theme.</p><p>This means that any changes you make using this interface will "
-"be saved to your theme folder.</p>"
+msgid "<p>Hier ist das UpFront Builder Interface, hier erstellst/bearbeitest du ein distributables Theme.</p><p>Das bedeutet, dass alle Änderungen, die du mit diesem Interface vornimmst, in deinem Theme-Ordner gespeichert werden.</p>"
 msgstr ""
 
 #: lib/class_thx_l10n.php:94
-msgid ""
-"<p>This is editor interface, this is where you make site-specific "
-"adjustments.</p><p>This means that any changes you make using this "
-"interface will be specific to your site, overriding any changes made with "
-"Builder.</p>"
+msgid "<p>Du befindest dich im Upfront Editor Interface, hier nimmst du seiten-spezifische Anpassungen vor.</p><p>Das bedeutet, dass alle Änderungen, die du mit diesem Interface vornimmst, spezifisch für deine Seite sind und Änderungen, die mit dem Builder gemacht wurden, überschreiben.</p>"
 msgstr ""
 
 #: lib/class_thx_l10n.php:95
-msgid "Okay, I got it"
+msgid "Okay, Ich habe Verstanden!"
 msgstr ""
 
 #: lib/class_thx_l10n.php:96
-msgid "Never show this again"
-msgstr ""
-
-#: lib/external/dashboard-notice/wpmudev-dash-notification.php:210
-msgid "install"
-msgstr ""
-
-#: lib/external/dashboard-notice/wpmudev-dash-notification.php:217
-msgid ""
-"Important updates are available for <strong>%s</strong>. Install the free "
-"WPMU DEV Dashboard plugin now for updates and support!"
-msgstr ""
-
-#: lib/external/dashboard-notice/wpmudev-dash-notification.php:219
-msgid ""
-"<strong>%s</strong> is almost ready - install the free WPMU DEV Dashboard "
-"plugin for updates and support!"
-msgstr ""
-
-#: lib/external/dashboard-notice/wpmudev-dash-notification.php:223
-msgid ""
-"Important updates are available for your WPMU DEV plugins/themes. Install "
-"the free WPMU DEV Dashboard plugin now for updates and support!"
-msgstr ""
-
-#: lib/external/dashboard-notice/wpmudev-dash-notification.php:225
-msgid ""
-"Almost ready - install the free WPMU DEV Dashboard plugin for updates and "
-"support!"
-msgstr ""
-
-#: lib/external/dashboard-notice/wpmudev-dash-notification.php:231
-msgid "Install Plugin"
-msgstr ""
-
-#: lib/external/dashboard-notice/wpmudev-dash-notification.php:234
-#: lib/external/dashboard-notice/wpmudev-dash-notification.php:275
-msgid "Saving..."
-msgstr ""
-
-#: lib/external/dashboard-notice/wpmudev-dash-notification.php:235
-#: lib/external/dashboard-notice/wpmudev-dash-notification.php:276
-msgid "Dismiss"
-msgstr ""
-
-#: lib/external/dashboard-notice/wpmudev-dash-notification.php:251
-msgid "activate"
-msgstr ""
-
-#: lib/external/dashboard-notice/wpmudev-dash-notification.php:258
-msgid ""
-"Important updates are available for <strong>%s</strong>. Activate the WPMU "
-"DEV Dashboard to update now!"
-msgstr ""
-
-#: lib/external/dashboard-notice/wpmudev-dash-notification.php:260
-msgid "Just one more step to enable updates and support for <strong>%s</strong>!"
-msgstr ""
-
-#: lib/external/dashboard-notice/wpmudev-dash-notification.php:264
-msgid ""
-"Important updates are available for your WPMU DEV plugins/themes. Activate "
-"the WPMU DEV Dashboard to update now!"
-msgstr ""
-
-#: lib/external/dashboard-notice/wpmudev-dash-notification.php:266
-msgid ""
-"Just one more step - activate the WPMU DEV Dashboard plugin and you're all "
-"done!"
-msgstr ""
-
-#: lib/external/dashboard-notice/wpmudev-dash-notification.php:272
-msgid "Activate WPMU DEV Dashboard"
-msgstr ""
-
-#: lib/external/dashboard-notice/wpmudev-dash-notification.php:939
-msgid "We did not find any data for this plugin or theme..."
-msgstr ""
-
-#: lib/external/dashboard-notice/wpmudev-dash-notification.php:1118
-msgid "%s changelog"
-msgstr ""
-
-#: lib/external/dashboard-notice/wpmudev-dash-notification.php:1148
-msgid "Current"
-msgstr ""
-
-#: lib/external/dashboard-notice/wpmudev-dash-notification.php:1154
-msgid "New"
-msgstr ""
-
-#: lib/external/dashboard-notice/wpmudev-dash-notification.php:1171
-msgid "Version %s"
-msgstr ""
-
-#: lib/external/dashboard-notice/wpmudev-dash-notification.php:1189
-msgid "Show all changes"
-msgstr ""
-
-#: lib/external/dashboard-notice/wpmudev-dash-notification.php:1190
-msgid "Hide details"
+msgid "Du brauchst dies nicht mehr zu zeigen"
 msgstr ""
 
 #: templates/plugin/admin_errors.php:13
-msgid ""
-"There was an error processing your request because a parameter was missing "
-"on invalid."
+msgid "Bei der Verarbeitung Deiner Anfrage ist ein Fehler aufgetreten, da ein Parameter fehlte oder ungültig war."
 msgstr ""
 
 #: templates/plugin/admin_errors.php:14
-msgid "You do not have permissions to do this."
+msgid "Du hast keine Berechtigung, dies zu tun."
 msgstr ""
 
 #: templates/plugin/admin_errors.php:15
-msgid "Oops, something seems to have gone wrong."
+msgid "Hoppla, es scheint ein Fehler aufgetreten zu sein."
 msgstr ""
 
-#. Plugin Name of the plugin/theme
+#: templates/plugin/create_edit.php:43
 msgid "Upfront Builder"
 msgstr ""
 
-#: templates/plugin/create_edit.php:46
-msgid ""
-"Create a unique, responsive Upfront theme that you can export, share, sell "
-"or tweak to your heart’s content."
+#: templates/plugin/create_edit.php:47
+msgid "Erstelle und verwalte responsive Upfront-Themes, passe ihre Designgrundlagen an und exportiere sie für andere Websites."
 msgstr ""
+
+#: templates/plugin/create_edit.php:50
+msgid "Aktives Theme"
+msgstr ""
+
+#: templates/plugin/create_edit.php:51
+#, php-format
+msgid "%s Upfront-Theme verfügbar"
+msgid_plural "%s Upfront-Themes verfügbar"
+msgstr[0] ""
+msgstr[1] ""
 
 #: templates/plugin/create_edit.php:54
-msgid "Build New Theme"
+msgid "Schnellzugriff"
 msgstr ""
 
-#: templates/plugin/create_edit.php:65
-msgid "Start building"
+#: templates/plugin/create_edit.php:57
+msgid "CodePen-Styleguide"
 msgstr ""
 
-#: templates/plugin/create_edit.php:74
-msgid "Edit existing theme"
+#: templates/plugin/create_edit.php:61
+msgid "Theme-Dokumentation"
 msgstr ""
 
-#: templates/plugin/create_edit.php:104
-msgid "Edit In Builder"
+#: templates/plugin/create_edit.php:69
+#: upfront-theme-exporter.php:288
+msgid "Neues Theme erstellen"
 msgstr ""
 
-#: templates/plugin/create_edit.php:108
-msgid "Download theme"
+#: templates/plugin/create_edit.php:80
+#: templates/plugin/kickstart_ready.php:8
+msgid "Mit dem Bauen beginnen"
 msgstr ""
 
-#: templates/plugin/create_edit.php:113
-msgid "Edit theme info"
+#: templates/plugin/create_edit.php:89
+msgid "Bestehendes Theme bearbeiten"
 msgstr ""
 
-#: templates/plugin/create_edit.php:121
-msgid "No existing themes, please create a new one."
+#: templates/plugin/create_edit.php:122
+msgid "Im Builder bearbeiten"
+msgstr ""
+
+#: templates/plugin/create_edit.php:126
+msgid "Download Theme"
+msgstr ""
+
+#: templates/plugin/create_edit.php:131
+msgid "Theme-Informationen bearbeiten"
+msgstr ""
+
+#: templates/plugin/create_edit.php:139
+msgid "Keine bestehenden Themes, bitte erstellen Sie ein neues."
 msgstr ""
 
 #: templates/plugin/kickstart_not_ready.php:3
-msgid "Unfortunately, we do not seem to have Upfront core installed on this site."
+msgid "Leider scheint Upfront Core auf dieser Website nicht installiert zu sein."
 msgstr ""
 
 #: templates/plugin/kickstart_not_ready.php:4
-msgid "We need that for the Upfront Builder plugin to work."
+msgid "Wir benötigen das, damit das Upfront Builder-Plugin funktioniert."
 msgstr ""
 
 #: templates/plugin/kickstart_not_ready.php:7
-msgid "<a href=\"%s\" target=\"_blank\">Get it here.</a>"
+#, php-format
+msgid "<a href=\"%s\" target=\"_blank\">Hier erhältlich.</a>"
 msgstr ""
 
 #: templates/plugin/kickstart_ready.php:3
-msgid ""
-"You do not seem have Upfront theme active on your site, which is needed to "
-"make use of the Upfront Builder plugin."
+msgid "Es scheint, als hättest Du das Upfront-Theme auf deiner Webseite nicht aktiviert; dieses wird jedoch benötigt, um das Upfront-Builder-Plugin nutzen zu können."
 msgstr ""
 
 #: templates/plugin/kickstart_ready.php:6
-msgid "We can fix that for you:"
+msgid "Wir können das für dich beheben:"
 msgstr ""
 
 #: templates/plugin/kickstart_ready.php:11
-msgid "Do not show this again"
+msgid "Nicht mehr anzeigen"
 msgstr ""
 
 #: templates/plugin/theme_form.php:29
-msgid "What do you want to call your new theme?"
+msgid "Wie soll dein neues Theme heißen?"
 msgstr ""
 
 #: templates/plugin/theme_form.php:37
+#, php-format
 msgid "%s Theme Info"
 msgstr ""
 
 #: templates/plugin/theme_form.php:42
-msgid "This theme name conflicts with a theme from WordPress themes repository:"
+msgid "Dieser Theme-Name steht im Konflikt mit einem Theme aus dem WordPress-Theme-Repository:"
 msgstr ""
 
 #: templates/plugin/theme_form.php:48
-msgid "This may cause issues with automatic updates down the line."
+msgid "Dies kann in Zukunft Probleme mit automatischen Updates verursachen."
 msgstr ""
 
 #: templates/plugin/theme_form.php:50
-msgid "Clone theme and fix this"
+msgid "Theme klonen und Problem beheben"
 msgstr ""
 
 #: templates/plugin/theme_form.php:57
-msgid "Theme listing image:"
+msgid "Theme Bild oder Logo:"
 msgstr ""
 
 #: templates/plugin/theme_form.php:66
-msgid "Change Image"
+msgid "Bild ändern"
 msgstr ""
 
 #: templates/plugin/theme_form.php:70
-msgid "Theme name:"
+msgid "Theme Name:"
 msgstr ""
 
 #: templates/plugin/theme_form.php:71
-msgid "Name for your theme"
+msgid "Name für dein Theme"
 msgstr ""
 
 #: templates/plugin/theme_form.php:74
-msgid "Theme directory:"
+msgid "Theme Verzeichnis:"
 msgstr ""
 
 #: templates/plugin/theme_form.php:75
-msgid "Base directory for your theme"
+msgid "Basisverzeichnis für dein Theme"
 msgstr ""
 
 #: templates/plugin/theme_form.php:78
-msgid "Author name:"
+msgid "Autor Name:"
 msgstr ""
 
 #: templates/plugin/theme_form.php:79
-msgid "Your name"
+msgid "Dein Name"
 msgstr ""
 
 #: templates/plugin/theme_form.php:82
-msgid "Author URL:"
+msgid "Autor URL:"
 msgstr ""
 
 #: templates/plugin/theme_form.php:83
-msgid "Your URL"
+msgid "Deine URL"
 msgstr ""
 
 #: templates/plugin/theme_form.php:86
-msgid "Theme description:"
+msgid "Theme Beschreibung:"
 msgstr ""
 
 #: templates/plugin/theme_form.php:90
-msgid "Theme version:"
+msgid "Theme Version:"
 msgstr ""
 
 #: templates/plugin/theme_form.php:94
@@ -590,55 +575,29 @@ msgid "Theme URL:"
 msgstr ""
 
 #: templates/plugin/theme_form.php:98
-msgid "Theme license:"
+msgid "Theme Lizenz:"
 msgstr ""
 
 #: templates/plugin/theme_form.php:102
-msgid "License URL:"
+msgid "Lizenz URL:"
 msgstr ""
 
 #: templates/plugin/theme_form.php:106
-msgid "Theme tags:"
+msgid "Theme Schlagworte:"
 msgstr ""
 
 #: templates/plugin/theme_form.php:110
-msgid "Theme text domain:"
-msgstr ""
-
-#: templates/plugin/theme_form.php:116
-msgid "Activate theme"
+msgid "Theme Textdomain:"
 msgstr ""
 
 #: templates/plugin/theme_form.php:122
-msgid "Export with images"
+msgid "Mit Bildern exportieren"
 msgstr ""
 
 #: templates/plugin/theme_form.php:129
-msgid "Save Changes"
+msgid "Änderungen speichern"
 msgstr ""
 
-#: upfront-theme-exporter.php:281
-msgid "Modify current theme"
-msgstr ""
-
-#: upfront-theme-exporter.php:289
-msgid "Create new theme"
-msgstr ""
-
-#. Plugin URI of the plugin/theme
-msgid "http://premium.wpmudev.com/"
-msgstr ""
-
-#. Description of the plugin/theme
-msgid ""
-"The fastest, most visual, way to build WordPress themes. Now anyone can "
-"design, build, export, share, and sell WordPress themes."
-msgstr ""
-
-#. Author of the plugin/theme
-msgid "WPMU DEV"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "http://premium.wpmudev.com"
+#: upfront-theme-exporter.php:280
+msgid "Theme bearbeiten"
 msgstr ""

@@ -1,6 +1,14 @@
 Change Log
 ============
 
+1.0.5 - 2026-09-02
+---------------------------------------------------------
+- Fix Creation of dynamic Property
+- Modernisierung der Bildvarianten: Drag-and-drop und Größenänderung verwenden jetzt das lokal integrierte Interact.js statt jQuery UI
+- Fix: Der veraltete jQuery-UI-Sortable-Fallback wird aus der Medien-Queue entfernt, wenn ClassicPress bereits SortableJS verwendet
+- Neuer informativer Builder-Header mit Theme-Status und direktem Zugriff auf den CodePen-Styleguide
+- Modernisierte Entwicklungsumgebung mit Node.js 20+, Dart Sass, ESLint, reproduzierbarem npm-Lockfile und WP-CLI-Übersetzungsworkflow
+
 1.0.4 - 2026-08-16
 ---------------------------------------------------------
 - Fix: Der create_new-Editor lädt die No-Build-Core-Abhängigkeiten von Upfront wieder zuverlässig
