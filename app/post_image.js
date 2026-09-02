@@ -1,8 +1,9 @@
 upfrontrjs.define([
 	'underscore',
 	'jquery',
+	'thx-image-interactions',
 	'text!' + Upfront.themeExporter.root + 'templates/theme/tpl/image_variants.html',
-], function(_, $, variant_tpl){
+], function(_, $, interactions, variant_tpl){
 
 
 var l10n = Upfront.Settings && Upfront.Settings.l10n ?
@@ -96,13 +97,16 @@ var PostImageVariant = Backbone.View.extend({
 		'.wp-caption-text, .wp-caption-text p': {label: l10n.variant_caption_label, info: l10n.variant_caption_info}
 	},
 	tpl : _.template($(variant_tpl).find('#upfront-post-image-variant-tpl').html()),
-	se_handle : '<span class="upfront-icon-control upfront-icon-control-resize-se upfront-resize-handle-se ui-resizable-handle ui-resizable-se nosortable"></span>',
-	nw_handle : '<span class="upfront-icon-control upfront-icon-control-resize-nw upfront-resize-handle-nw ui-resizable-handle ui-resizable-nw nosortable"></span>',
-	e_handle : '<span class="upfront-resize-handle-e ui-resizable-handle ui-resizable-e nosortable"></span>',
-	w_handle : '<span class="upfront-resize-handle-w ui-resizable-handle ui-resizable-w nosortable"></span>',
-	s_handle : '<span class="upfront-resize-handle-s ui-resizable-handle ui-resizable-s nosortable"></span>',
+	e_handle : '<span class="upfront-resize-handle upfront-resize-handle-e nosortable"></span>',
+	w_handle : '<span class="upfront-resize-handle upfront-resize-handle-w nosortable"></span>',
+	s_handle : '<span class="upfront-resize-handle upfront-resize-handle-s nosortable"></span>',
 	initialize: function( options ){
 		this.opts = options;
+		this.groupResizable = null;
+		this.imageDraggable = null;
+		this.captionDraggable = null;
+		this.imageResizable = null;
+		this.captionResizable = null;
 		this.listenTo(Upfront.Events, 'builder:image_variant:edit:start', this.on_other_edit);
 	},
 	events : {
@@ -173,6 +177,18 @@ var PostImageVariant = Backbone.View.extend({
 		Upfront.Content.ImageVariants.remove(this.model);
 		this.remove();
 	},
+	remove: function () {
+		_.each([
+			this.groupResizable,
+			this.imageDraggable,
+			this.captionDraggable,
+			this.imageResizable,
+			this.captionResizable
+		], function (interaction) {
+			if (interaction) interaction.destroy();
+		});
+		return Backbone.View.prototype.remove.call(this);
+	},
 	start_editing : function(e){
 		e.preventDefault();
 		e.stopPropagation();
@@ -185,7 +201,7 @@ var PostImageVariant = Backbone.View.extend({
 			visibility : "hidden"
 		});
 		//disable group's resizability
-		this.$self.resizable("option", "disabled", true);
+		this.groupResizable.setDisabled(true);
 
 		this.$self.addClass("editing");
 
@@ -221,7 +237,7 @@ var PostImageVariant = Backbone.View.extend({
 			visibility : "visible"
 		});
 		//enable group's resizability
-		this.$self.resizable("option", "disabled", false);
+		this.groupResizable.setDisabled(false);
 
 		this.$self.removeClass("editing");
 
@@ -234,12 +250,12 @@ var PostImageVariant = Backbone.View.extend({
 		// Show group's resize handles
 		this.$self.find(".upfront-icon-control").show();
 
-		this.$image.draggable("option", "disabled", true);
-		this.$image.resizable("option", "disabled", true);
+		this.imageDraggable.setDisabled(true);
+		this.imageResizable.setDisabled(true);
 		this.$image.find(".upfront-icon-control").hide();
 
-		this.$caption.draggable("option", "disabled", true);
-		this.$caption.resizable("option", "disabled", true);
+		this.captionDraggable.setDisabled(true);
+		this.captionResizable.setDisabled(true);
 		this.$caption.find(".upfront-icon-control").hide();
 
 		$(e.target).remove();
@@ -288,7 +304,6 @@ var PostImageVariant = Backbone.View.extend({
 					event.stopPropagation();
 					var $this = $(this),
 						$other = $this.is( self.$image ) ? self.$caption : self.$image,
-						data = $this.data('ui-resizable'),
 						height = Math.floor($this.outerHeight()),
 						width = Math.floor($this.outerWidth()),
 						offset = $this.offset(),
@@ -395,7 +410,7 @@ var PostImageVariant = Backbone.View.extend({
 						marginLeft: $this.css('margin-left')
 					});
 
-					$this.resizable("option", "disabled", true);
+					($this.is(self.$image) ? self.imageResizable : self.captionResizable).setDisabled(true);
 				},
 				drag : function( event, ui ){
 					event.stopPropagation();
@@ -606,7 +621,7 @@ var PostImageVariant = Backbone.View.extend({
 
 					$('.upfront-drop').remove();
 
-					$this.resizable("option", "disabled", false);
+					($this.is(self.$image) ? self.imageResizable : self.captionResizable).setDisabled(false);
 					self.render_model_data();
 				}
 			};
@@ -614,20 +629,14 @@ var PostImageVariant = Backbone.View.extend({
 		/**
 		 * Make image draggable
 		 */
-		if( _.isEmpty( this.$image.data("ui-draggable") ) ){
-			this.$image.draggable( options );
-		}else{
-			this.$image.draggable( "option", "disabled", false );
-		}
+		if (!this.imageDraggable) this.imageDraggable = interactions.draggable(this.$image, options);
+		else this.imageDraggable.setDisabled(false);
 
 		/**
 		 * Make caption draggable
 		 */
-		if( _.isEmpty( this.$caption.data("ui-draggable") ) ){
-			this.$caption.draggable( options );
-		}else{
-			this.$caption.draggable( "option", "disabled", false );
-		}
+		if (!this.captionDraggable) this.captionDraggable = interactions.draggable(this.$caption, options);
+		else this.captionDraggable.setDisabled(false);
 	},
 	make_items_resizable : function(){
 		var self = this,
@@ -663,7 +672,7 @@ var PostImageVariant = Backbone.View.extend({
 
 					var $this = $(this),
 						$other = $this.is( self.$image ) ? self.$caption : self.$image,
-						data = $this.data('ui-resizable'),
+						resizeInteraction = $this.is(self.$image) ? self.imageResizable : self.captionResizable,
 						height = Math.floor(ui.originalSize.height),
 						width = Math.floor(ui.originalSize.width),
 						offset = $this.offset(),
@@ -691,9 +700,9 @@ var PostImageVariant = Backbone.View.extend({
 
 					max_col = self.model.get('group').col;
 
-					$this.draggable("option", "disabled", true);
+					($this.is(self.$image) ? self.imageDraggable : self.captionDraggable).setDisabled(true);
 
-					axis = data.axis ? data.axis : 'se';
+					axis = resizeInteraction.axis ? resizeInteraction.axis : 'se';
 
 					$resize = $('<div class="upfront-resize" style="height:'+height+'px;"></div>');
 					$resize.css({
@@ -717,7 +726,6 @@ var PostImageVariant = Backbone.View.extend({
 					}
 					$('body').append($resize);
 
-					$(ui.helper).find('.ui-resizable-ghost').css('opacity', 1);
 					$this.css('width', width);
 
 					// A little hack to normalize originalPosition, to better handle nw resizing
@@ -822,7 +830,7 @@ var PostImageVariant = Backbone.View.extend({
 						height =  rsz_row * ge.baseline
 					;
 
-					$this.draggable("option", "disabled", false);
+					($this.is(self.$image) ? self.imageDraggable : self.captionDraggable).setDisabled(false);
 
 					Upfront.Util.grid.update_class($this, ge.grid.class, rsz_col);
 					//Upfront.Util.grid.update_class($this, ge.grid.left_margin_class, rsz_left);
@@ -868,14 +876,14 @@ var PostImageVariant = Backbone.View.extend({
 		 */
 
 
-		if(_.isEmpty(  this.$image.data("ui-resizable") ) ){
+		if (!this.imageResizable) {
 			this.$image.append(this.w_handle);
 			this.$image.append(this.e_handle);
 			this.$image.append(this.s_handle);
-			this.$image.resizable(options);
+			this.imageResizable = interactions.resizable(this.$image, options);
 		}else{
 			this.$image.find(".upfront-icon-control").show();
-			this.$image.resizable("option", "disabled", false);
+			this.imageResizable.setDisabled(false);
 		}
 
 
@@ -883,14 +891,14 @@ var PostImageVariant = Backbone.View.extend({
 		 * Make caption resizable
 		 */
 
-		if(_.isEmpty(  this.$caption.data("ui-resizable") ) ){
+		if (!this.captionResizable) {
 			this.$caption.append(this.w_handle);
 			this.$caption.append(this.e_handle);
 			this.$caption.append(this.s_handle);
-			this.$caption.resizable(options);
+			this.captionResizable = interactions.resizable(this.$caption, options);
 		}else{
 			this.$caption.find(".upfront-icon-control").show();
-			this.$caption.resizable("option", "disabled", false);
+			this.captionResizable.setDisabled(false);
 		}
 
 	},
@@ -953,7 +961,7 @@ var PostImageVariant = Backbone.View.extend({
 		this.$self.append(this.w_handle);
 		this.$self.append(this.e_handle);
 		//this.$self.append(this.s_handle);
-		this.$self.resizable({
+		this.groupResizable = interactions.resizable(this.$self, {
 			//autoHide: true,
 			delay: 50,
 			handles: {
@@ -973,14 +981,13 @@ var PostImageVariant = Backbone.View.extend({
 				});
 
 				var $this = $(this),
-					data = $this.data('ui-resizable'),
 					height = ui.originalSize.height,
 					width = ui.originalSize.width,
 					offset = $this.offset(),
 					floatval = self.model.get('group').float
 				;
 
-				axis = data.axis ? data.axis : 'e';
+				axis = self.groupResizable.axis ? self.groupResizable.axis : 'e';
 				min_col = ( !self.$image.hasClass('is-full') && !self.$caption.hasClass('is-full') ) ? 2 : 1;
 
 				$resize = $('<div class="upfront-resize" style="height:'+height+'px;"></div>');
@@ -1005,15 +1012,13 @@ var PostImageVariant = Backbone.View.extend({
 				}
 				$('body').append($resize);
 
-				$(ui.helper).find('.ui-resizable-ghost').css('opacity', 1);
-
 				// A little hack to normalize originalPosition, to allow resizing when floated right
 				var pos_left = offset.left - $content.offset().left;
 				pos_left = pos_left > 0 ? pos_left : 0;
-				data.originalPosition.left = pos_left;
-				data._updateCache({
+				self.groupResizable.originalPosition.left = pos_left;
+				self.groupResizable.updateCache({
 					left: pos_left,
-					top: data.originalPosition.top
+					top: self.groupResizable.originalPosition.top
 				});
 				if ( axis == 'nw' || axis == 'w' )
 					$(ui.helper).css({

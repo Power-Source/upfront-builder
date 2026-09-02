@@ -37,16 +37,31 @@
 ?>
 
 <div class="wrap upfront_admin upfront-builder">
-
-	<h1>
-		<?php esc_html_e('Upfront Builder', UpfrontThemeExporter::DOMAIN); ?>
-		<span class="upfront_logo"></span>
-	</h1>
-	<p class="info">
-		<?php esc_html_e('Erstelle ein einzigartiges, responsives Upfront-Theme, das Du exportieren, teilen, verkaufen oder nach Herzenslust anpassen kannst.', UpfrontThemeExporter::DOMAIN); ?>
-	</p>
-
-	<?php load_template(dirname(__FILE__) . '/admin_errors.php'); ?>
+	<header class="upfront-builder-header">
+		<div class="upfront-builder-header__content">
+			<h1>
+				<?php esc_html_e('Upfront Builder', UpfrontThemeExporter::DOMAIN); ?>
+				<span class="upfront_logo"></span>
+			</h1>
+			<p class="upfront-builder-header__intro">
+				<?php esc_html_e('Erstelle und verwalte responsive Upfront-Themes, passe ihre Designgrundlagen an und exportiere sie für andere Websites.', UpfrontThemeExporter::DOMAIN); ?>
+			</p>
+			<div class="upfront-builder-header__status">
+				<span><?php esc_html_e('Aktives Theme', UpfrontThemeExporter::DOMAIN); ?>: <strong><?php echo esc_html(wp_get_theme($current_theme)->get('Name')); ?></strong></span>
+				<span><?php printf(esc_html(_n('%s Upfront-Theme verfügbar', '%s Upfront-Themes verfügbar', count($themes), UpfrontThemeExporter::DOMAIN)), number_format_i18n(count($themes))); ?></span>
+			</div>
+		</div>
+		<nav class="upfront-builder-header__actions" aria-label="<?php esc_attr_e('Schnellzugriff', UpfrontThemeExporter::DOMAIN); ?>">
+			<a class="button button-primary" href="<?php echo esc_url(admin_url('admin.php?page=upfront_to_codepen')); ?>">
+				<span class="dashicons dashicons-art" aria-hidden="true"></span>
+				<?php esc_html_e('CodePen-Styleguide', UpfrontThemeExporter::DOMAIN); ?>
+			</a>
+			<a class="button" href="https://psource.eimen.net/wiki/upfront-themes/upfront-theme-entwickler/" target="_blank" rel="noopener noreferrer">
+				<span class="dashicons dashicons-editor-help" aria-hidden="true"></span>
+				<?php esc_html_e('Theme-Dokumentation', UpfrontThemeExporter::DOMAIN); ?>
+			</a>
+		</nav>
+	</header>
 
 	<div class="postbox-container">
 		<!-- Build New Theme -->
@@ -94,7 +109,10 @@
 								'nonce' => wp_create_nonce('download-' . $theme->get_stylesheet()),
 							), $redirection));
 						?>" >
-							<?php $screenshot = $theme->get_screenshot() ? $theme->get_screenshot() : ''; ?>
+							<?php
+								$screenshot = $theme->get_screenshot() ? $theme->get_screenshot() : '';
+								$screenshot = apply_filters('upfront_theme_catalog_screenshot', $screenshot, $theme->get_stylesheet());
+							?>
 							<?php if ( !empty($screenshot) ) { ?>
 								<img src="<?php echo esc_url($screenshot); ?>" />
 							<?php }?>

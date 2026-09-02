@@ -124,6 +124,7 @@ class UpfrontThemeExporter {
 
 		// Add shared Upfront/Exporter JS resources
 		add_action('upfront-core-inject_dependencies', array($this, 'add_shared_scripts'));
+		add_filter('upfront-settings-requirement_paths', array($this, 'add_dependency_paths'));
 		add_filter('upfront_data', array($this, 'add_shared_data'));
 
 		// Shared - context mode popup
@@ -177,6 +178,20 @@ class UpfrontThemeExporter {
 		$deps = Upfront_CoreDependencies_Registry::get_instance();
 		$deps->add_script(plugins_url('app/shared.js', __FILE__));
 		$deps->add_style(plugins_url('styles/shared.css', __FILE__));
+	}
+
+	/**
+	 * Register plugin-local AMD dependencies used by the builder.
+	 *
+	 * @param array $paths RequireJS module paths.
+	 *
+	 * @return array
+	 */
+	public function add_dependency_paths ($paths) {
+		$paths['thx-interact'] = plugins_url('vendor/interact/interact.min', __FILE__);
+		$paths['thx-image-interactions'] = plugins_url('app/image_interactions', __FILE__);
+
+		return $paths;
 	}
 
 	/**

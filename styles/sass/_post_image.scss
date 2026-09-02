@@ -117,6 +117,16 @@
 	right: -7px;
 	left: auto;
 }
+.ueditor-insert.ueditor-insert-variant .upfront-resize-handle-s {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -7px;
+	height: 14px;
+	background: none;
+	cursor: ns-resize;
+	display: none !important;
+}
 .ueditor-insert.ueditor-insert-variant .upfront-resize-handle-w:before,
 .ueditor-insert.ueditor-insert-variant .upfront-resize-handle-e:before {
 	content: "";
@@ -147,9 +157,9 @@
 	background-color: rgba(255, 255, 255, 0.3);
 	box-shadow: inset 0px 0px 3px 0px rgba(60, 82, 103, 0.15);
 }
-.ueditor-insert-variant-image:hover > .ui-resizable-handle,
-.ueditor-insert-variant-caption:hover > .ui-resizable-handle,
-.ueditor-insert-variant-group:hover > .ui-resizable-handle {
+.ueditor-insert-variant-image:hover > .upfront-resize-handle,
+.ueditor-insert-variant-caption:hover > .upfront-resize-handle,
+.ueditor-insert-variant-group:hover > .upfront-resize-handle {
 	display: block !important;
 	visibility: visible;
 }
@@ -157,7 +167,7 @@
 .ueditor-insert.ueditor-insert-variant .upfront-wrapper.is-full .upfront-resize-handle-w,
 .ueditor-insert.ueditor-insert-variant .upfront-wrapper.is-full .upfront-resize-handle-e,
 .ueditor-insert.ueditor-insert-variant .upfront-wrapper.order-1 .upfront-resize-handle-e,
-.ueditor-insert-variant-group.editing > .ui-resizable-handle {
+.ueditor-insert-variant-group.editing > .upfront-resize-handle {
 	display: none !important;
 }
 

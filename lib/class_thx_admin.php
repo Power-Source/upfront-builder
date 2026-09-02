@@ -116,6 +116,7 @@ class Thx_Admin {
 	 */
 	public function set_up_dependencies () {
 		if (!Upfront_Permissions::current(Upfront_Permissions::BOOT)) wp_die("Nope.");
+		add_filter('wp_auth_check_load', '__return_false');
 		add_action('admin_enqueue_scripts', array($this, 'enqueue_dependencies'));
 	}
 
@@ -156,6 +157,23 @@ class Thx_Admin {
 		));
 
 		wp_enqueue_media();
+		$this->dequeue_deprecated_media_sortable();
+		wp_add_inline_script('media-models', '(function($){$._thxOriginalOn=$.fn.on;$.fn.on=function(types){if(types==="unload")arguments[0]="pagehide";return $._thxOriginalOn.apply(this,arguments);};})(jQuery);', 'before');
+		wp_add_inline_script('media-models', '(function($){if($._thxOriginalOn){$.fn.on=$._thxOriginalOn;delete $._thxOriginalOn;}})(jQuery);', 'after');
+	}
+
+	/**
+	 * Remove the obsolete jQuery UI fallback when the media library uses SortableJS.
+	 */
+	private function dequeue_deprecated_media_sortable () {
+		$scripts = wp_scripts();
+		$media_views = isset($scripts->registered['media-views'])
+			? $scripts->registered['media-views']
+			: false;
+
+		if ($media_views && in_array('sortable-js', $media_views->deps, true)) {
+			wp_dequeue_script('jquery-ui-sortable');
+		}
 	}
 
 	/**
