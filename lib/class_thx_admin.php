@@ -135,10 +135,13 @@ class Thx_Admin {
 
 		$tpl = Thx_Template::plugin();
 		$create_edit_script = $tpl->filepath('js/create_edit.js');
+		$dompurify_script = dirname(__DIR__) . '/vendor/dompurify/purify.min.js';
+		$dompurify_url = plugins_url('vendor/dompurify/purify.min.js', dirname(__DIR__) . '/upfront-theme-exporter.php');
 
 		wp_enqueue_style('create_edit', $tpl->url('css/create_edit.css'));
 
-		wp_enqueue_script('create_edit', $tpl->url('js/create_edit.js'), array('jquery'), filemtime($create_edit_script));
+		wp_enqueue_script('thx-dompurify', $dompurify_url, array(), filemtime($dompurify_script));
+		wp_enqueue_script('create_edit', $tpl->url('js/create_edit.js'), array('jquery', 'thx-dompurify'), filemtime($create_edit_script));
 		wp_localize_script('create_edit', '_thx', array(
 			'editor_base' => esc_url(Upfront_Thx_Builder_VirtualPage::get_url(
 				Upfront_Thx_Builder_VirtualPage::get_initial_url()

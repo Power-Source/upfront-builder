@@ -1,14 +1,17 @@
+/* global DOMPurify */
 ;(function ($, undefined) {
 
 function show_error (msg) {
-	msg = msg || ((_thx || {}).l10n || {}).oops;
+	var $error;
+
+	msg = msg || ((window._thx || {}).l10n || {}).oops;
 	if (!msg) return false;
 
 	hide_errors();
 
-	$(".upfront_admin.upfront-builder h1").after(
-		'<div class="error after-h2 upfront-error"><p>' + msg + '</p></div>'
-	);
+	$error = $('<div>').addClass('error after-h2 upfront-error');
+	$('<p>').text(msg).appendTo($error);
+	$(".upfront_admin.upfront-builder h1").after($error);
 
 	var root_pos = ($(".upfront_admin.upfront-builder .upfront-error").offset() || {}).top || 0,
 	 	top_pos = root_pos - $("#wpadminbar").height()
@@ -60,7 +63,7 @@ function init_new () {
 		$selected = $("#existing-theme").find('.uf-thx-theme.selected'),
 		$name = $selected.find('.uf-thx-caption > span').text();
 
-	$("#existing-theme .theme-name").html($name);
+	$("#existing-theme .theme-name").text($name);
 
 	if ($screenshot.attr("src")) { $screenshot.addClass('nostyle'); }
 
@@ -152,7 +155,12 @@ function init_existing () {
 				mode: "theme",
 				selected: selected_theme,
 			}).done(function(response) {
-				$edit_form_content.html(response);
+				var cleanForm = DOMPurify.sanitize(response, {
+					ALLOWED_TAGS: ['a', 'button', 'div', 'h2', 'img', 'input', 'label', 'p', 'span', 'textarea'],
+					ALLOWED_ATTR: ['alt', 'checked', 'class', 'for', 'href', 'id', 'placeholder', 'readonly', 'rel', 'src', 'target', 'type', 'value'],
+					RETURN_DOM_FRAGMENT: true
+				});
+				$edit_form_content.empty().append(cleanForm);
 				$edit_form_container.show();
 			}).fail(function(){
 				show_error();
@@ -198,7 +206,7 @@ function init_existing () {
 				$edit_form_container = $edit_form.closest('.postbox-modal-container')
 			;
 
-			$edit_form_content.html('');
+			$edit_form_content.empty();
 			$edit_form_container.hide();
 
 			return false;

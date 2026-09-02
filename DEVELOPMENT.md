@@ -20,6 +20,7 @@ npm test             # JavaScript, PHP und Sass prüfen
 npm run build        # exporter.css inklusive Source Map erstellen
 npm run build:css    # nur CSS erstellen
 npm run build:i18n   # languages/upfront_thx.pot aktualisieren
+npm run check:vendor # gebündelte Laufzeitbibliotheken mit npm-Paketen vergleichen
 ```
 
 Die PHP-Prüfung überspringt `templates/theme`, weil diese Dateien Export-Platzhalter enthalten und vor ihrer Verarbeitung kein gültiges PHP darstellen.

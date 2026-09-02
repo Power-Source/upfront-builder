@@ -6,8 +6,9 @@
     "build": "grunt build",
     "build:css": "grunt sass",
     "build:i18n": "wp i18n make-pot . languages/upfront_thx.pot --ignore-domain --exclude=node_modules,vendor",
-    "check": "npm run lint:js && npm run lint:php && npm run check:sass",
+    "check": "npm run lint:js && npm run lint:php && npm run check:sass && npm run check:vendor",
     "check:sass": "sass --no-source-map styles/sass/exporter.scss > /dev/null",
+  	"check:vendor": "node scripts/check-vendor.js",
     "lint:js": "eslint Gruntfile.js eslint.config.js app templates/plugin/js",
     "lint:php": "find . -name '*.php' -not -path './node_modules/*' -not -path './vendor/*' -not -path './templates/theme/*' -print0 | xargs -0 -n1 php -l",
     "test": "npm run check"
@@ -18,6 +19,7 @@
   },
   "packageManager": "npm@10.9.3",
   "devDependencies": {
+    "dompurify": "^3.4.14",
     "eslint": "^10.9.1",
     "grunt": "^1.6.3",
     "grunt-cli": "^1.5.0",

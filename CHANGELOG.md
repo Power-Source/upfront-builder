@@ -8,6 +8,7 @@ Change Log
 - Fix: Der veraltete jQuery-UI-Sortable-Fallback wird aus der Medien-Queue entfernt, wenn ClassicPress bereits SortableJS verwendet
 - Neuer informativer Builder-Header mit Theme-Status und direktem Zugriff auf den CodePen-Styleguide
 - Modernisierte Entwicklungsumgebung mit Node.js 20+, Dart Sass, ESLint, reproduzierbarem npm-Lockfile und WP-CLI-Übersetzungsworkflow
+- Security: Vier mögliche DOM-XSS-Senken im Theme-Dialog durch sichere Text-APIs und lokal integriertes DOMPurify geschlossen
 
 1.0.4 - 2026-08-16
 ---------------------------------------------------------
