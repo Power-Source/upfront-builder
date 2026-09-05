@@ -1,6 +1,12 @@
 Change Log
 ============
 
+1.0.6 - 2026-09-05
+---------------------------------------------------------
+- Fix: Der unkomprimierte Layout-Export bewahrt gültige JSON-Unicode-Sequenzen und exportiert Umlaute wie in Aktivität wieder korrekt
+- Fix: Navigationselemente ohne Menü-ID werden beim Ermitteln von Lightboxes und beim Exportieren von Menüs sicher übersprungen
+- Sicherheit: Theme-, Editor- und Download-Ziele werden vor der Navigation auf gültige Slugs, HTTP(S) und Same-Origin beschränkt
+
 1.0.5 - 2026-09-02
 ---------------------------------------------------------
 - Fix Creation of dynamic Property

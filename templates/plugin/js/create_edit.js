@@ -30,20 +30,43 @@ function show_error (msg) {
 
 function hide_errors () { return $(".upfront_admin.upfront-builder .upfront-error").remove(); }
 
+function get_safe_navigation_url (value) {
+	var url;
+
+	if (typeof value !== 'string' || !value) return false;
+
+	try {
+		url = new URL(value, window.location.href);
+	} catch (error) {
+		return false;
+	}
+
+	if (!url.protocol.match(/^https?:$/) || url.origin !== window.location.origin) return false;
+
+	return url.href;
+}
+
+function is_valid_theme_slug (slug) {
+	return typeof slug === 'string' && /^[a-z0-9][a-z0-9_-]*$/i.test(slug);
+}
+
 function edit_theme (theme) {
 	var search = window.location.search.toString(),
 		edbase = (window._thx || {}).editor_base,
 		slug = (window._thx || {}).action_slug,
-		url = edbase.replace(slug, slug.replace(/\/theme/, '/' + theme))
+		url
 	;
-	if (!url) return false;
+	if (!edbase || !slug || !is_valid_theme_slug(theme)) return false;
+
+	url = edbase.replace(slug, slug.replace(/\/theme/, '/' + theme));
 
 	hide_errors();
 
 	if (search.length && search.match(/[?&]dev=/)) {
 		url += '?dev=true';
 	}
-	window.location.assign(url);
+	url = get_safe_navigation_url(url);
+	if (url) window.location.assign(url);
 }
 
 function get_data (new_theme) {
@@ -112,7 +135,10 @@ function init_new () {
 					if (!slug && response && "theme" in response) {
 						slug = (response.theme || {directory: false}).directory;
 					}
-					if (slug) window.location = base_url.replace(/\/theme/, '/' + slug);
+					var editorUrl = is_valid_theme_slug(slug)
+						? get_safe_navigation_url(base_url.replace(/\/theme/, '/' + slug))
+						: false;
+					if (editorUrl) window.location.assign(editorUrl);
 					else window.location.reload();
 				}).fail(function(){
 					show_error();
@@ -198,10 +224,10 @@ function init_existing () {
 			e.preventDefault();
 			e.stopPropagation();
 
-			var current = $(e.target).closest('a').attr('data-download_url');
+			var current = get_safe_navigation_url($(e.target).closest('a').attr('data-download_url'));
 			if (!current) return false;
 
-			window.location = current;
+			window.location.assign(current);
 
 			return false;
 		})

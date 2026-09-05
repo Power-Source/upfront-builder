@@ -4,7 +4,7 @@ Plugin URI: https://cp-psource.github.io/upfront-builder/
 Tags: classicpress, theme, builder, framework
 Requires at least: 4.9
 Tested up to: 5.0
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -108,6 +108,11 @@ Entwerfe, erstelle, exportiere, teile und verkaufe Deine eigenen UpFront-Designs
 
 
 == ChangeLog ==
+
+= 1.0.6 =
+* Fix: Der unkomprimierte Layout-Export bewahrt gültige JSON-Unicode-Sequenzen und exportiert Umlaute wie in Aktivität wieder korrekt
+* Fix: Navigationselemente ohne Menü-ID werden beim Ermitteln von Lightboxes und beim Exportieren von Menüs sicher übersprungen
+* Sicherheit: Theme-, Editor- und Download-Ziele werden vor der Navigation auf gültige Slugs, HTTP(S) und Same-Origin beschränkt
 
 = 1.0.5 =
 * Fix Creation of dynamic Property

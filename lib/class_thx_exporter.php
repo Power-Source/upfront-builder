@@ -685,7 +685,10 @@ error_log(debug_backtrace());
 			), false);
 		}
 		if ( false === $regions ) {
-			$regions = !empty($data['regions']) ? json_decode(stripslashes_deep($data['regions'])) : array();
+			$regions = !empty($data['regions']) ? json_decode($data['regions']) : array();
+			if ( !empty($data['regions']) && JSON_ERROR_NONE !== json_last_error() ) {
+				$regions = json_decode(wp_unslash($data['regions']));
+			}
 		}
 
 		$template = "<?php\n";
@@ -1225,6 +1228,7 @@ error_log(debug_backtrace());
 
 	protected function _get_lightboxes_from_menu ($properties) {
 		$lightboxes = array();
+		if (empty($properties['options']['menu_id'])) return $lightboxes;
 
 		$menu_id = $properties['options']['menu_id'];
 		$menu_items = wp_get_nav_menu_items($menu_id);
@@ -1270,6 +1274,8 @@ error_log(debug_backtrace());
 	}
 
 	protected function _add_menu_from_element ($properties) {
+		if (empty($properties['options']['menu_id'])) return;
+
 		$menu_id = $properties['options']['menu_id'];
 
 		$page_slug = str_replace('single-page-', '', $this->_template);

@@ -3,7 +3,7 @@
 Plugin Name: UpFront Builder
 Plugin URI: https://psource.eimen.net/wiki/upfront-dokumentation/upfront-builder-dokumentation/
 Description: Die schnellste und visuellste Art, WordPress-Themes zu erstellen. Jetzt kann jeder WordPress-Themes entwerfen, bauen, exportieren, teilen und verkaufen.
-Version: 1.0.5
+Version: 1.0.6
 Author: PSOURCE
 Text Domain: upfront_thx
 Author URI: https://psource.eimen.net/
