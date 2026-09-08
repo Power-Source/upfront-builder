@@ -1,6 +1,12 @@
 Change Log
 ============
 
+1.0.7 - 2026-09-08
+---------------------------------------------------------
+- Fix: Builder-Endpunkte unterdrücken den allgemeinen Upfront-Autostart und lassen ausschließlich den Theme Builder initialisieren
+- Fix: Theme bearbeiten verwendet eine stabile URL zum aktiven Upfront-Child-Theme
+- Fix: Das Builder-Menü zeigt genau einen Hilfeeintrag und verlinkt kontextabhängig auf die Upfront-Builder-Dokumentation
+
 1.0.6 - 2026-09-05
 ---------------------------------------------------------
 - Fix: Der unkomprimierte Layout-Export bewahrt gültige JSON-Unicode-Sequenzen und exportiert Umlaute wie in Aktivität wieder korrekt

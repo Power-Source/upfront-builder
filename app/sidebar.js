@@ -5,9 +5,8 @@ upfrontrjs.define([
 	'scripts/upfront/upfront-views-editor/commands/command-exit',
 	'scripts/upfront/upfront-views-editor/commands/command-menu',
 	'scripts/upfront/upfront-views-editor/commands/menu/command-close',
-	'scripts/upfront/upfront-views-editor/commands/menu/command-wpadmin',
-	'scripts/upfront/upfront-views-editor/commands/menu/command-help'
-], function (Command_Logo, Command_Exit, Command_Menu, Command_Close, Command_WPAdmin, Command_Help) {
+	'scripts/upfront/upfront-views-editor/commands/menu/command-wpadmin'
+], function (Command_Logo, Command_Exit, Command_Menu, Command_Close, Command_WPAdmin) {
 
 
 var l10n = Upfront.Settings && Upfront.Settings.l10n ?
@@ -131,23 +130,16 @@ var Command_MyThemes = Upfront.Views.Editor.Command.extend({
 	}
 });
 
-var Command_BuilderHelp = Command_Help.extend({
-	on_click: function () {
-		var url = 'https://premium.wpmudev.org/upfront-documentation/upfront-builder',
-			win = window.open(url, "_blank")
-		;
-		win.focus();
-	}
-});
-
 var Menu = Command_Menu.extend({
+	get_help_url: function () {
+		return 'https://psource.eimen.net/wiki/upfront-dokumentation/upfront-builder-dokumentation/';
+	},
 	initialize: function () {
 		Command_Menu.prototype.initialize.call(this);
 		this.menu.commands = _([
 			new Command_BuilderClose({"model": this.model}),
 			new Command_MyThemes({"model": this.model}),
-			new Command_WPAdmin({"model": this.model}),
-			new Command_BuilderHelp({"model": this.model})
+			new Command_WPAdmin({"model": this.model})
 		]);
 	}
 });
