@@ -120,7 +120,7 @@ class UpfrontThemeExporter {
 			require_once(dirname(__FILE__) . '/lib/class_thx_admin.php');
 			Thx_Admin::serve();
 		}
-		$this->_load_textdomain();
+		add_action('init', array($this, 'load_textdomain'), 0);
 
 		// Add shared Upfront/Exporter JS resources
 		add_action('upfront-core-inject_dependencies', array($this, 'add_shared_scripts'));
@@ -226,7 +226,7 @@ class UpfrontThemeExporter {
 	/**
 	 * Loads translations text domain for the plugin
 	 */
-	private function _load_textdomain () {
+	public function load_textdomain () {
 		load_plugin_textdomain(self::DOMAIN, false, dirname(plugin_basename(__FILE__)) . '/languages');
 	}
 
@@ -278,7 +278,7 @@ class UpfrontThemeExporter {
 				'parent' => 'upfront-builder-hub',
 				'id' => 'upfront-builder-current_theme',
 				'title' => __('Theme bearbeiten', self::DOMAIN),
-				'href' => home_url('/' . UpfrontThemeExporter::get_root_slug() . '/' . $child),
+				'href' => Upfront_VirtualPage::get_url(UpfrontThemeExporter::get_root_slug() . '/' . $child),
 			));
 		}
 		// Create new

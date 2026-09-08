@@ -1554,7 +1554,8 @@ error_log(debug_backtrace());
 		// because we're exporting this now, too
 		// But we only want to get urls of this site
 		$site_no_schema_url = str_replace('http://', '', get_site_url(null, '', 'http'));
-		preg_match_all("#\b(https?://$site_no_schema_url.+?\.(jpg|jpeg|png|gif|mp4|webm))\b#", $content, $matches);
+		$image_url_root = "(?:(?:https?:)?//{$site_no_schema_url}|\\{\\{upfront:home_url\\}\\})";
+		preg_match_all("#({$image_url_root}.+?\\.(jpg|jpeg|png|gif|mp4|webm))\\b#i", $content, $matches);
 
 		$images_used_in_template = array();
 		$separator = '/';
@@ -1567,6 +1568,9 @@ error_log(debug_backtrace());
 
 		// matches[1] containes full image urls
 		foreach ($matches[1] as $image) {
+			$source_url = 0 === strpos($image, '{{upfront:home_url}}')
+				? get_home_url() . substr($image, strlen('{{upfront:home_url}}'))
+				: $image;
 			$is_ui_image = false !== strpos($image, $_this_theme_relative_ui_root);
 
 			// If the exports aren't allowed...
@@ -1606,20 +1610,20 @@ error_log(debug_backtrace());
 			// So, let's export!
 
 			// Image is from a theme
-			if (false !== strpos($image, get_theme_root_uri())) {
-				$relative_url = explode("/{$_themes_root}/", $image);
+			if (false !== strpos($source_url, get_theme_root_uri())) {
+				$relative_url = explode("/{$_themes_root}/", $source_url);
 				$source_root = get_theme_root();
 				$current_template_directory = $template_images_dir;
 			}
 			// Image is from uploads
-			if (false !== strpos($image, 'uploads')) {
-				$relative_url = explode("/{$_uploads_root}/", $image);
+			if (false !== strpos($source_url, 'uploads')) {
+				$relative_url = explode("/{$_uploads_root}/", $source_url);
 				$source_root = $uploads_dir['basedir'];
 				$current_template_directory = $template_images_dir;
 			}
 			// Image is from UI
 			if ($is_ui_image) {
-				$relative_url = explode("/{$_themes_root}/", $image);
+				$relative_url = explode("/{$_themes_root}/", $source_url);
 				$source_root = get_theme_root();
 				$current_template_directory = $theme_ui_path;
 			}
