@@ -146,6 +146,8 @@ var Menu = Command_Menu.extend({
 
 
 function init_normal_exporter () {
+	if (window._upfront_post_data) _upfront_post_data.post_id = false;
+	Upfront.Application.sidebar.sidebar_panels.init_modules(false);
 	Upfront.Application.sidebar.sidebar_commands.primary = new SidebarCommands_PrimaryLayout({model: Upfront.Application.sidebar.model});
 	Upfront.Application.sidebar.sidebar_commands.additional = false;
 
