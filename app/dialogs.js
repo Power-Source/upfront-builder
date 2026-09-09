@@ -224,8 +224,7 @@
 					var layout = fields.layout.get_value(),
 						layout_slug = app.layout.get('layout_slug'),
 						data = ed.saved_layouts[layout];
-					if ( data.latest_post )
-						_upfront_post_data.post_id = data.latest_post;
+					_upfront_post_data.post_id = false;
 					app.layout.set('current_layout', layout);
 					app.load_layout(data.layout, {layout_slug: layout_slug});
 				});

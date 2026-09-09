@@ -125,6 +125,7 @@ class Thx_Exporter {
 		//add_filter('upfront_theme_postpart_templates_cascade', array($this, 'get_theme_postpart_templates_cascade'), 10, 2);
 
 		add_filter('upfront_prepare_theme_styles', '__return_empty_string', 15);
+		add_filter('upfront_prepare_typography_styles', '__return_empty_string', 15);
 		add_filter('upfront_load_layout_from_database', '__return_false');
 
 		add_action('upfront_update_theme_colors', array($this, 'update_theme_colors'));

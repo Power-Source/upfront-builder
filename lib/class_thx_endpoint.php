@@ -25,18 +25,10 @@ abstract class Thx_VirtualSubpage extends Upfront_VirtualSubpage {
 		add_filter('upfront-load-editor-dependencies', '__return_true');
 		add_filter('upfront-editor-boot-mode', array($this, 'get_editor_mode'));
 		add_filter('upfront-auto-boot-editor', '__return_false');
-		add_filter('upfront-entity_resolver-entity_ids', array($this, 'resolve_builder_home_layout'), 20, 2);
 		query_posts('');
+		global $wp_query, $wp_the_query;
+		$wp_the_query = $wp_query;
 		remove_action('wp_head', 'feed_links_extra', 3);
-	}
-
-	public function resolve_builder_home_layout ($ids, $cascade) {
-		if (defined('DOING_AJAX') && DOING_AJAX) return $ids;
-
-		return array(
-			'type' => 'archive',
-			'item' => 'archive-home',
-		);
 	}
 
 	public function get_editor_mode () {
@@ -141,9 +133,20 @@ class Upfront_Thx_Builder_VirtualPage extends Upfront_VirtualPage {
 	 * Gets the initial page URL partial
 	 */
 	public static function get_initial_url () {
+		$stylesheet = get_stylesheet();
+		$theme = wp_get_theme($stylesheet);
+
+		if ($theme->get('Template') !== 'upfront') {
+			foreach (wp_get_themes() as $candidate_stylesheet => $candidate_theme) {
+				if ($candidate_theme->get('Template') !== 'upfront') continue;
+				$stylesheet = $candidate_stylesheet;
+				break;
+			}
+		}
+
 		return join('/', array(
 			self::SLUG,
-			Thx_VirtualSubpage::INITIAL_SLUG
+			$stylesheet
 		));
 	}
 
