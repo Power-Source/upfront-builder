@@ -16,7 +16,6 @@ class Thx_Exporter {
 
 	protected $_global_regions = array();
 	protected $_global_sideregions = array();
-	private $_resolving_referer_context = false;
 
 	private $_theme_exports_images = true; // Export images by default, for legacy themes
 
@@ -312,43 +311,6 @@ class Thx_Exporter {
 
 		foreach (array('item', 'type', 'specificity') as $key) {
 			if (!empty($get[$key])) $ids[$key] = $get[$key];
-		}
-
-		// Builder routes under /create_new/... often resolve as 404 unless explicit layout data is present.
-		// Recover the last real page from referer; if none is usable, fall back to Home.
-		if (
-			!$this->_resolving_referer_context &&
-			empty($get['layout']) &&
-			empty($get['type']) &&
-			empty($get['item']) &&
-			empty($get['specificity']) &&
-			(!defined('DOING_AJAX') || !DOING_AJAX) &&
-			(
-				empty($ids) ||
-				(!empty($ids['item']) && 'single-404_page' === $ids['item']) ||
-				(!empty($ids['specificity']) && 'single-404_page' === $ids['specificity'])
-			)
-		) {
-			$referer = wp_get_referer();
-			$referer_ids = false;
-
-			if (!empty($referer) && strpos($referer, '/create_new/') === false) {
-				$this->_resolving_referer_context = true;
-				try {
-					$referer_ids = Upfront_EntityResolver::ids_from_url($referer);
-				} finally {
-					$this->_resolving_referer_context = false;
-				}
-			}
-
-			if (!empty($referer_ids) && !empty($referer_ids['item']) && 'single-404_page' !== $referer_ids['item']) {
-				$ids = $referer_ids;
-			} else {
-				$ids = array(
-					'type' => 'archive',
-					'item' => 'archive-home'
-				);
-			}
 		}
 		return $ids;
 	}
@@ -1554,7 +1516,7 @@ error_log(debug_backtrace());
 		// because we're exporting this now, too
 		// But we only want to get urls of this site
 		$site_no_schema_url = str_replace('http://', '', get_site_url(null, '', 'http'));
-		$image_url_root = "(?:(?:https?:)?//{$site_no_schema_url}|\\{\\{upfront:home_url\\}\\})";
+		$image_url_root = "(?:(?:https?:)?//{$site_no_schema_url}|\\{\\{upfront:home_url\\}\\}|\\{\\{upfront:style_url\\}\\})";
 		preg_match_all("#({$image_url_root}.+?\\.(jpg|jpeg|png|gif|mp4|webm))\\b#i", $content, $matches);
 
 		$images_used_in_template = array();
@@ -1568,6 +1530,12 @@ error_log(debug_backtrace());
 
 		// matches[1] containes full image urls
 		foreach ($matches[1] as $image) {
+			$exported_image_prefix = '{{upfront:style_url}}/images/' . trim($template, '/') . '/';
+			if (0 === strpos($image, $exported_image_prefix)) {
+				$images_used_in_template[] = $template_images_dir . basename($image);
+				continue;
+			}
+
 			$source_url = 0 === strpos($image, '{{upfront:home_url}}')
 				? get_home_url() . substr($image, strlen('{{upfront:home_url}}'))
 				: $image;
