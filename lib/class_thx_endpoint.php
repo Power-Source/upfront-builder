@@ -25,8 +25,18 @@ abstract class Thx_VirtualSubpage extends Upfront_VirtualSubpage {
 		add_filter('upfront-load-editor-dependencies', '__return_true');
 		add_filter('upfront-editor-boot-mode', array($this, 'get_editor_mode'));
 		add_filter('upfront-auto-boot-editor', '__return_false');
+		add_filter('upfront-entity_resolver-entity_ids', array($this, 'resolve_builder_home_layout'), 20, 2);
 		query_posts('');
 		remove_action('wp_head', 'feed_links_extra', 3);
+	}
+
+	public function resolve_builder_home_layout ($ids, $cascade) {
+		if (defined('DOING_AJAX') && DOING_AJAX) return $ids;
+
+		return array(
+			'type' => 'archive',
+			'item' => 'archive-home',
+		);
 	}
 
 	public function get_editor_mode () {

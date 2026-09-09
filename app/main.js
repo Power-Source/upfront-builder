@@ -1,7 +1,7 @@
 (function($) {
 	var dependencies = [
-		Upfront.themeExporter.root + 'app/styles.js?v=' + Upfront.themeExporter.assetVersion,
-		Upfront.themeExporter.root + 'app/postlayout.js?v=' + Upfront.themeExporter.assetVersion,
+		Upfront.themeExporter.root + 'app/styles.js',
+		Upfront.themeExporter.root + 'app/postlayout.js',
 		Upfront.themeExporter.root + 'app/application.js?v=' + Upfront.themeExporter.assetVersion
 	];
 	upfrontrjs.require(dependencies, function(StylesHelper, PostLayoutHelper){
@@ -21,8 +21,8 @@
 		});
 
 		upfrontrjs.require([
-			Upfront.themeExporter.root  + 'app/sidebar.js?v=' + Upfront.themeExporter.assetVersion,
-			Upfront.themeExporter.root  + 'app/modal.js?v=' + Upfront.themeExporter.assetVersion,
+			Upfront.themeExporter.root  + 'app/sidebar.js',
+			Upfront.themeExporter.root  + 'app/modal.js',
 		], function (sidebar, modal) {
 			sidebar.init();
 			modal.init();

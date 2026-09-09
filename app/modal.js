@@ -273,7 +273,7 @@ var LayoutsModal_Existing = LayoutsModal_Pane.extend({
 
 		if (data.label) Upfront.themeExporter.current_layout_label = data.label;
 
-		_upfront_post_data.post_id = false;
+		if (data.latest_post) _upfront_post_data.post_id = data.latest_post;
 		Upfront.Application.layout.set('current_layout', layout);
 		loading = Upfront.Application.load_layout(data.layout, {layout_slug: layout_slug});
 

@@ -2,7 +2,7 @@
 jQuery(document).on("upfront-load", function () {
 	Upfront.themeExporter = {
 		root: '<?php echo esc_url($root_url); ?>',
-		assetVersion: '<?php echo esc_js(max(array_map('filemtime', glob(dirname(dirname(__DIR__)) . '/app/*.js')))); ?>',
+		assetVersion: '<?php echo esc_js(filemtime(dirname(dirname(__DIR__)) . '/app/application.js')); ?>',
 		includes: '<?php echo esc_url($includes_url); ?>',
 		admin_url: '<?php echo esc_url($admin_url); ?>',
 		themes: <?php echo json_encode($themes) ?>,
