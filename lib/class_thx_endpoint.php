@@ -24,6 +24,7 @@ abstract class Thx_VirtualSubpage extends Upfront_VirtualSubpage {
 		add_filter('upfront-enable-dev-saving', '__return_false');
 		add_filter('upfront-load-editor-dependencies', '__return_true');
 		add_filter('upfront-editor-boot-mode', array($this, 'get_editor_mode'));
+		add_filter('upfront-auto-boot-editor', '__return_false');
 		query_posts('');
 		remove_action('wp_head', 'feed_links_extra', 3);
 	}
@@ -42,7 +43,6 @@ abstract class Thx_VirtualSubpage extends Upfront_VirtualSubpage {
 
 	public function start_editor () {
 		upfront_exporter_clear_conversion_cache($this->get_slug());
-		echo upfront_boot_editor_trigger($this->get_editor_mode());
 		$show_exp = (int)get_user_option(Thx_Exposed::BOOTSTRAP_EXP_SLUG);
 		$active_theme = get_option('stylesheet');
 		echo '<script type="text/javascript">
