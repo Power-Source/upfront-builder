@@ -1,6 +1,13 @@
 Change Log
 ============
 
+1.0.8 - 2026-09-10
+---------------------------------------------------------
+- Fix: Der Builder startet mit dem aktiven Upfront-Child-Theme statt mit einem nicht vorhandenen Standard-Slug und lädt die Startseiten-Cascade im regulären WordPress-Kontext
+- Fix: Builder und Seiteneditor halten Post-, Sidebar- und Layout-Kontext beim Laden und Wechseln von Layouts getrennt
+- Fix: Builder-Module verwenden wieder versionierte RequireJS-URLs, damit Änderungen an Styles, Layout-Hilfen, Sidebar und Layoutdialog nicht aus einem veralteten Browser-Cache stammen
+- Fix: Der Bildexport bewahrt exportierte Theme-Bilder beim Aufräumen und Bildgrößen werden ohne lange Dezimalwerte dargestellt
+
 1.0.7 - 2026-09-08
 ---------------------------------------------------------
 - Fix: Builder-Endpunkte unterdrücken den allgemeinen Upfront-Autostart und lassen ausschließlich den Theme Builder initialisieren

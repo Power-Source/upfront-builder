@@ -4,7 +4,7 @@ Plugin URI: https://cp-psource.github.io/upfront-builder/
 Tags: classicpress, theme, builder, framework
 Requires at least: 4.9
 Tested up to: 5.0
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -108,6 +108,12 @@ Entwerfe, erstelle, exportiere, teile und verkaufe Deine eigenen UpFront-Designs
 
 
 == ChangeLog ==
+
+= 1.0.8 =
+* Fix: Der Builder startet mit dem aktiven Upfront-Child-Theme statt mit einem nicht vorhandenen Standard-Slug und lädt die Startseiten-Cascade im regulären WordPress-Kontext
+* Fix: Builder und Seiteneditor halten Post-, Sidebar- und Layout-Kontext beim Laden und Wechseln von Layouts getrennt
+* Fix: Builder-Module verwenden wieder versionierte RequireJS-URLs, damit Änderungen an Styles, Layout-Hilfen, Sidebar und Layoutdialog nicht aus einem veralteten Browser-Cache stammen
+* Fix: Der Bildexport bewahrt exportierte Theme-Bilder beim Aufräumen und Bildgrößen werden ohne lange Dezimalwerte dargestellt
 
 = 1.0.7 =
 * Fix: Builder-Endpunkte unterdrücken den allgemeinen Upfront-Autostart und lassen ausschließlich den Theme Builder initialisieren
