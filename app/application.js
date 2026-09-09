@@ -121,10 +121,31 @@
 							parameters.rootEl.find('.panel-section-content').append(edit_structure.el);
 					},
 					'do-action-after-sidebar-settings-render': function(parameters) {
-						// not needed for now as Draggable Elements will be the default expanded
-						// setTimeout( function() {
-							// parameters.settingsEl.find('.sidebar-panel-title').trigger('click');
-						// }, 50);
+						var section = parameters.settingsEl.find('.sidebar-panel-settings-section').last(),
+							content = section.find('.panel-section-content');
+						if (!content.length || content.find('.upfront-manage-exported-layouts').length) return;
+						$('<button type="button" class="upfront-manage-exported-layouts">' + l10n.manage_exported_layouts + '</button>')
+							.appendTo(content)
+							.on('click', function () {
+								Upfront.Util.post({action: 'upfront_list_theme_layouts'}).done(function (response) {
+									var layouts = response.data || [],
+										select = $('<select />');
+									_.each(layouts, function (layout) {
+										select.append($('<option />').val(layout.layout.specificity).text(layout.label));
+									});
+									Upfront.Popup.open(function (data, top, bottom) {
+										$(this).append(select);
+										$('<button type="button" />').text(l10n.delete_layout).appendTo(bottom).on('click', function () {
+											if (!window.confirm(l10n.delete_layout_confirm)) return;
+											Upfront.Util.post({action: 'upfront_thx-delete-layout', stylesheet: Upfront.themeExporter.currentTheme, data: {template: select.val()}}).done(function () {
+												Upfront.Popup.close();
+											}).fail(function () {
+												Upfront.Views.Editor.notify(l10n.delete_layout_failed, 'error');
+											});
+										});
+									}, {}, 'upfront-manage-exported-layouts-popup');
+								});
+							});
 					},
 					'add-sidebar-commands-class': function(parameters) {
 						return parameters.className + ' sidebar-commands-theme';

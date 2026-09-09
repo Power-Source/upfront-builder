@@ -112,6 +112,7 @@ class Thx_Exporter {
 		add_action($ajaxPrefix . 'get-themes', array($this, 'json_get_themes'));
 
 		add_action($ajaxPrefix . 'export-layout', array($this, 'json_export_layout'));
+		add_action($ajaxPrefix . 'delete-layout', array($this, 'json_delete_layout'));
 
 		//add_action($ajaxPrefix . 'export-post-layout', array($this, 'json_export_post_layout'));
 		//add_action($ajaxPrefix . 'export-part-template', array($this, 'json_export_part_template'));
@@ -220,6 +221,31 @@ class Thx_Exporter {
 		$this->_json->out(array(
 			'data' => $layouts,
 		));
+	}
+
+	public function json_delete_layout () {
+		if (!Upfront_Permissions::current(Upfront_Permissions::BOOT)) {
+			$this->_json->error_msg(__('Nicht erlaubt.', UpfrontThemeExporter::DOMAIN), 'forbidden');
+		}
+
+		$data = !empty($_POST['data']) ? wp_unslash($_POST['data']) : array();
+		$stylesheet = !empty($_POST['stylesheet']) ? sanitize_key(wp_unslash($_POST['stylesheet'])) : '';
+		$template = !empty($data['template']) ? Thx_Sanitize::extended_alnum($data['template']) : '';
+		$theme = $stylesheet ? wp_get_theme($stylesheet) : false;
+
+		if (!$theme || !$theme->exists() || $theme->get('Template') !== 'upfront') {
+			$this->_json->error_msg(__('Ungültiges Theme.', UpfrontThemeExporter::DOMAIN), 'invalid_theme');
+		}
+		if (!$template || !preg_match('/^(archive|single)(?:-[a-z0-9_-]+)?$/', $template)) {
+			$this->_json->error_msg(__('Ungültiges Template.', UpfrontThemeExporter::DOMAIN), 'invalid_template');
+		}
+
+		$this->_fs->set_theme($stylesheet);
+		if (!$this->_fs->drop(array(Thx_Fs::PATH_LAYOUTS, $template . '.php'))) {
+			$this->_json->error_msg(__('Das Template konnte nicht gelöscht werden.', UpfrontThemeExporter::DOMAIN), 'delete_failed');
+		}
+
+		$this->_json->out(array('data' => array('template' => $template)));
 	}
 
 	/**
