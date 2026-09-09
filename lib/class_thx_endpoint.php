@@ -43,6 +43,7 @@ abstract class Thx_VirtualSubpage extends Upfront_VirtualSubpage {
 
 	public function start_editor () {
 		upfront_exporter_clear_conversion_cache($this->get_slug());
+		echo upfront_boot_editor_trigger($this->get_editor_mode());
 		$show_exp = (int)get_user_option(Thx_Exposed::BOOTSTRAP_EXP_SLUG);
 		$active_theme = get_option('stylesheet');
 		echo '<script type="text/javascript">
