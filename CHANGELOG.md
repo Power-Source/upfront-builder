@@ -1,6 +1,11 @@
 Change Log
 ============
 
+1.0.9 - 2026-10-28
+---------------------------------------------------------
+- Änderung: Neue Theme-Namen werden nur lokal auf gültige Slugs und vorhandene Theme-Verzeichnisse geprüft, auch in Multisite-Netzwerken. Die externe Repository-Abfrage entfällt.
+- Fix: Neue und ausgewählte Themes öffnen im Builder mit ihrem eigenen Slug statt versehentlich das aktive Theme zu laden. Beide Einstiege verwenden dieselbe URL-Erzeugung; ungültige Erstellungsantworten zeigen einen Fehler statt einer irreführenden Weiterleitung.
+
 1.0.8 - 2026-09-10
 ---------------------------------------------------------
 - Fix: Der Builder startet mit dem aktiven Upfront-Child-Theme statt mit einem nicht vorhandenen Standard-Slug und lädt die Startseiten-Cascade im regulären WordPress-Kontext

@@ -2103,27 +2103,6 @@ error_log(debug_backtrace());
 			return wp_send_json($result);
 		}
 
-		// Check WP.org themes conflict
-		$resp = themes_api('theme_information', array('slug' => $slug));
-
-		// Why hello there, what a lovely function signature you have!
-		if (!empty($resp) && !is_wp_error($resp)) {
-			$theme = is_object($resp)
-				? $resp
-				: (!empty($resp[0]) ? $resp[0] : false)
-			;
-			// On some servers (:cough: GoDaddy :cough:) empty object is always returned, so check for actual theme info too
-			if (!empty($theme) && !empty($theme->name) && !empty($theme->homepage)) {
-				$result['error'] = 3; // So we got a result, and it's a conflict
-				$result['msg'] = sprintf(
-					/* translators: 1: Conflicting theme name. 2: Theme repository URL. */
-					__('Konflikt mit dem %1$s-Theme im öffentlichen Repository von wordpress.org festgestellt: %2$s', UpfrontThemeExporter::DOMAIN),
-					esc_html($theme->name), esc_url($theme->homepage)
-				);
-				return wp_send_json($result);
-			}
-		}
-
 		// We got this far? We're all good!
 		return wp_send_json(array(
 			'error' => 0,

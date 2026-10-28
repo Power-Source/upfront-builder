@@ -1,11 +1,12 @@
 === UpFront Builder ===
 Contributors: DerN3rd (PSOURCE)
-Plugin URI: https://cp-psource.github.io/upfront-builder/
+Plugin URI: https://psource.eimen.net/psource/upfront-framework/upfront-builder/
 Tags: classicpress, theme, builder, framework
-Requires at least: 4.9
-Tested up to: 5.0
-Stable tag: 1.0.8
-Requires PHP: 7.0
+Requires CP: 2.7
+Tested up to: 7.1
+ClassicPress: 2.7.4
+Stable tag: 1.0.9
+Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -108,6 +109,10 @@ Entwerfe, erstelle, exportiere, teile und verkaufe Deine eigenen UpFront-Designs
 
 
 == ChangeLog ==
+
+= 1.0.9 =
+* Änderung: Neue Theme-Namen werden nur lokal auf gültige Slugs und vorhandene Theme-Verzeichnisse geprüft, auch in Multisite-Netzwerken. Die externe Repository-Abfrage entfällt.
+* Fix: Neue und ausgewählte Themes öffnen im Builder mit ihrem eigenen Slug statt versehentlich das aktive Theme zu laden. Beide Einstiege verwenden dieselbe URL-Erzeugung; ungültige Erstellungsantworten zeigen einen Fehler statt einer irreführenden Weiterleitung.
 
 = 1.0.8 =
 * Fix: Der Builder startet mit dem aktiven Upfront-Child-Theme statt mit einem nicht vorhandenen Standard-Slug und lädt die Startseiten-Cascade im regulären WordPress-Kontext

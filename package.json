@@ -1,6 +1,6 @@
 {
   "name": "upfront-theme-exporter",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "private": true,
   "description": "Tools for Upfront Theme Exporter",
   "scripts": {
@@ -9,10 +9,12 @@
     "build:i18n": "wp i18n make-pot . languages/upfront_thx.pot --ignore-domain --exclude=node_modules,vendor",
     "check": "npm run lint:js && npm run lint:php && npm run check:sass && npm run check:vendor",
     "check:sass": "sass --no-source-map styles/sass/exporter.scss > /dev/null",
-  	"check:vendor": "node scripts/check-vendor.js",
+    "check:vendor": "node scripts/check-vendor.js",
     "lint:js": "eslint Gruntfile.js eslint.config.js app templates/plugin/js",
     "lint:php": "find . -name '*.php' -not -path './node_modules/*' -not -path './vendor/*' -not -path './templates/theme/*' -print0 | xargs -0 -n1 php -l",
-    "test": "npm run check"
+    "test": "npm run test:navigation && npm run test:theme-name && npm run check",
+    "test:theme-name": "php scripts/test-theme-name-check.php",
+    "test:navigation": "node --test scripts/test-editor-navigation.js"
   },
   "engines": {
     "node": ">=20.19.0",

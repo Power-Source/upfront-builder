@@ -2,10 +2,10 @@
 
 **Deutsch** | [**English**](README-en.md)
 
-[![Version](https://img.shields.io/badge/Version-1.0.8-2271b1?style=flat-square)](readme.txt)
+[![Version](https://img.shields.io/badge/Version-1.0.9-2271b1?style=flat-square)](readme.txt)
 ![PHP](https://img.shields.io/badge/PHP-8.0%2B-777bb4?style=flat-square&logo=php&logoColor=white)
 ![WordPress](https://img.shields.io/badge/WordPress-bis%207.1.0-21759b?style=flat-square&logo=wordpress&logoColor=white)
-![ClassicPress](https://img.shields.io/badge/ClassicPress-2.7.1-03768e?style=flat-square)
+![ClassicPress](https://img.shields.io/badge/ClassicPress-2.7.4-03768e?style=flat-square)
 [![Lizenz](https://img.shields.io/badge/Lizenz-GPL--2.0--or--later-2ea44f?style=flat-square)](https://www.gnu.org/licenses/gpl-2.0.html)
 
 **Visuelle Theme-Entwicklung für ClassicPress.**
@@ -44,6 +44,8 @@ Im ClassicPress-Backend öffnest Du **Upfront > Upfront Builder**. Dort kannst D
 - ein fertiges Theme herunterladen.
 
 Beim Anlegen erzeugt der Builder die benötigte Theme-Struktur und stellt grundlegende Layoutvorlagen bereit.
+
+Neue Theme-Namen werden nur lokal auf gültige Slugs und vorhandene Theme-Verzeichnisse geprüft, auch im gemeinsamen Theme-Verzeichnis eines Multisite-Netzwerks. Eine externe Repository-Abfrage findet dabei nicht statt. Nach dem Erstellen oder Auswählen öffnet der Builder gezielt das betreffende Theme, unabhängig vom aktiven Website-Theme.
 
 ### 3. Visuell gestalten
 

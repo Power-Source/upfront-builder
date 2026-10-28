@@ -50,20 +50,30 @@ function is_valid_theme_slug (slug) {
 	return typeof slug === 'string' && /^[a-z0-9][a-z0-9_-]*$/i.test(slug);
 }
 
+function get_editor_url (theme) {
+	var edbase = (window._thx || {}).editor_base,
+		slug = (window._thx || {}).action_slug;
+
+	if (!edbase || !slug || !is_valid_theme_slug(theme)) return false;
+	if (edbase.indexOf(slug) === -1) return false;
+
+	return get_safe_navigation_url(edbase.replace(slug, function () {
+		return slug.replace(/\/[^/]+$/, '/' + theme);
+	}));
+}
+
 function edit_theme (theme) {
 	var search = window.location.search.toString(),
-		edbase = (window._thx || {}).editor_base,
-		slug = (window._thx || {}).action_slug,
-		url
+		url = get_editor_url(theme)
 	;
-	if (!edbase || !slug || !is_valid_theme_slug(theme)) return false;
-
-	url = edbase.replace(slug, slug.replace(/\/theme/, '/' + theme));
+	if (!url) return show_error();
 
 	hide_errors();
 
 	if (search.length && search.match(/[?&]dev=/)) {
-		url += '?dev=true';
+		var editorUrl = new URL(url);
+		editorUrl.searchParams.set('dev', 'true');
+		url = editorUrl.href;
 	}
 	url = get_safe_navigation_url(url);
 	if (url) window.location.assign(url);
@@ -103,13 +113,8 @@ function init_new () {
 			e.stopPropagation();
 
 			var $me = $(this),
-				data = get_data(true),
-				base_url = (window._thx || {}).editor_base || window.location.pathname,
-				slug
+				data = get_data(true)
 			;
-			if ('thx-theme-slug' in data) {
-				slug = data['thx-theme-slug'];
-			}
 			data.add_global_regions = true;
 
 			hide_errors();
@@ -132,16 +137,12 @@ function init_new () {
 					mode: "theme",
 					form: _.map(data, function(value, key){ return key + '=' + escape(value); }).join('&')
 				}).done(function(response) {
-					if (!slug && response && "theme" in response) {
-						slug = (response.theme || {directory: false}).directory;
-					}
-					var editorUrl = is_valid_theme_slug(slug)
-						? get_safe_navigation_url(base_url.replace(/\/theme/, '/' + slug))
-						: false;
+					var slug = ((response || {}).theme || {}).directory,
+						editorUrl = get_editor_url(slug);
 					if (editorUrl) window.location.assign(editorUrl);
-					else window.location.reload();
-				}).fail(function(){
-					show_error();
+					else show_error();
+				}).fail(function(response){
+					show_error((((response || {}).responseJSON || {}).error || {}).message);
 					$me.text(((_thx || {}).l10n || {}).start_building || 'Start Building');
 				});
 

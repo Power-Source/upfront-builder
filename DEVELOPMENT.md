@@ -17,6 +17,8 @@ npm ci
 
 ```bash
 npm test             # JavaScript, PHP und Sass prüfen
+npm run test:navigation # Theme-Auswahl und Weiterleitung beim Anlegen/Bearbeiten prüfen
+npm run test:theme-name # Lokale Namensprüfung ohne externe Repository-Anfrage prüfen
 npm run build        # exporter.css inklusive Source Map erstellen
 npm run build:css    # nur CSS erstellen
 npm run build:i18n   # languages/upfront_thx.pot aktualisieren

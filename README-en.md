@@ -2,10 +2,10 @@
 
 [**Deutsch**](README.md) | **English**
 
-[![Version](https://img.shields.io/badge/Version-1.0.8-2271b1?style=flat-square)](readme.txt)
+[![Version](https://img.shields.io/badge/Version-1.0.9-2271b1?style=flat-square)](readme.txt)
 ![PHP](https://img.shields.io/badge/PHP-8.0%2B-777bb4?style=flat-square&logo=php&logoColor=white)
 ![WordPress](https://img.shields.io/badge/WordPress-up%20to%207.1.0-21759b?style=flat-square&logo=wordpress&logoColor=white)
-![ClassicPress](https://img.shields.io/badge/ClassicPress-2.7.1-03768e?style=flat-square)
+![ClassicPress](https://img.shields.io/badge/ClassicPress-2.7.4-03768e?style=flat-square)
 [![License](https://img.shields.io/badge/License-GPL--2.0--or--later-2ea44f?style=flat-square)](https://www.gnu.org/licenses/gpl-2.0.html)
 
 **Visual theme development for ClassicPress.**
@@ -44,6 +44,8 @@ In the ClassicPress administration area, open **Upfront > Upfront Builder**. Fro
 - download a completed theme.
 
 When creating a theme, the Builder generates the required theme structure and provides essential layout templates.
+
+New theme names are checked locally for valid slugs and existing theme directories, including the shared theme directory of a multisite network. No external repository lookup is performed during this check. After creating or selecting a theme, the Builder opens that specific theme, independently of the active site theme.
 
 ### 3. Design visually
 
