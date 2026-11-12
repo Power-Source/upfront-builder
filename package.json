@@ -12,7 +12,8 @@
     "check:vendor": "node scripts/check-vendor.js",
     "lint:js": "eslint Gruntfile.js eslint.config.js app templates/plugin/js",
     "lint:php": "find . -name '*.php' -not -path './node_modules/*' -not -path './vendor/*' -not -path './templates/theme/*' -print0 | xargs -0 -n1 php -l",
-    "test": "npm run test:navigation && npm run test:theme-name && npm run check",
+    "test": "npm run test:navigation && npm run test:theme-name && npm run test:image-export && npm run check",
+    "test:image-export": "php scripts/test-image-export.php",
     "test:theme-name": "php scripts/test-theme-name-check.php",
     "test:navigation": "node --test scripts/test-editor-navigation.js"
   },

@@ -943,18 +943,16 @@ error_log(debug_backtrace());
 
 		// Deal with the slider images
 		if (!empty($secondary['background_slider_images'])) {
-			foreach ($secondary['background_slider_images'] as $idx => $img) {
-				$source = get_attached_file($img);
-				if (empty($source)) continue;
-				// copy file to theme folder
-				$file = basename($source);
-				$path_parts = array(
-					Thx_Fs::PATH_IMAGES,
-					$file,
-				);
-				$destination = $this->_fs->get_path($path_parts, false);
-				@copy($source, $destination);
-				$secondary['background_slider_images'][$idx] = $this->_fs->construct_path($path_parts, true);
+			$secondary['background_slider_images'] = $this->_export_background_slider_images($secondary['background_slider_images']);
+		}
+		if (!empty($secondary['breakpoint']) && (is_array($secondary['breakpoint']) || is_object($secondary['breakpoint']))) {
+			$secondary['breakpoint'] = (array) $secondary['breakpoint'];
+			foreach ($secondary['breakpoint'] as $breakpoint => $settings) {
+				if (!is_array($settings) && !is_object($settings)) continue;
+				$settings = (array) $settings;
+				if (empty($settings['background_slider_images'])) continue;
+				$settings['background_slider_images'] = $this->_export_background_slider_images($settings['background_slider_images']);
+				$secondary['breakpoint'][$breakpoint] = $settings;
 			}
 		}
 
@@ -982,6 +980,20 @@ error_log(debug_backtrace());
 		$output .= '/* END_REGION_OUTPUT */' . "\n";
 
 		return $output;
+	}
+
+	private function _export_background_slider_images ($images) {
+		if (is_object($images)) $images = (array) $images;
+		if (!is_array($images)) return $images;
+		foreach ($images as $idx => $image) {
+			if (!is_numeric($image)) continue;
+			$source = get_attached_file($image);
+			if (empty($source)) continue;
+			$file = $this->_copy_theme_image($source, $this->_fs->get_path(Thx_Fs::PATH_IMAGES));
+			if (false === $file) continue;
+			$images[$idx] = $this->_fs->construct_path(array(Thx_Fs::PATH_IMAGES, $file), true);
+		}
+		return $images;
 	}
 
 	protected function _render_modules ($name, $modules, $wrappers, $group = '') {
@@ -1528,24 +1540,22 @@ error_log(debug_backtrace());
 		$uploads_dir = wp_upload_dir();
 
 		$_themes_root = basename(get_theme_root());
-		$_uploads_root = basename($uploads_dir['basedir']);
-
+		if (empty($template_images_dir) || !is_dir($template_images_dir)) {
+			error_log('Upfront Builder: Theme-Bildverzeichnis konnte nicht geöffnet werden: ' . $template);
+			return $content;
+		}
 		$template_images_dir = trailingslashit(rtrim($template_images_dir, '/'));
-
-		// Save file list for later
-		$original_images = preg_match('{\b' . $template . '\b}', wp_normalize_path($template_images_dir))
-			? glob($template_images_dir . '*.{jpg,JPG,jpeg,JPEG,png,PNG,gif,GIF,mp4,MP4,webm,WEBM,WebM}', GLOB_BRACE)
-			: array()
-		;
 
 		// We're also including supported video files here,
 		// because we're exporting this now, too
 		// But we only want to get urls of this site
-		$site_no_schema_url = str_replace('http://', '', get_site_url(null, '', 'http'));
-		$image_url_root = "(?:(?:https?:)?//{$site_no_schema_url}|\\{\\{upfront:home_url\\}\\}|\\{\\{upfront:style_url\\}\\})";
-		preg_match_all("#({$image_url_root}.+?\\.(jpg|jpeg|png|gif|mp4|webm))\\b#i", $content, $matches);
+		$url_roots = array(get_site_url(null, '', 'http'), $uploads_dir['baseurl'], get_theme_root_uri());
+		$url_roots = array_map(function ($url) {
+			return preg_quote(preg_replace('#^https?://#i', '', rtrim($url, '/')), '#');
+		}, $url_roots);
+		$image_url_root = '(?:(?:https?:)?//(?:' . implode('|', $url_roots) . ')|\\{\\{upfront:(?:home_url|site_url|style_url)\\}\\})';
+		preg_match_all("#({$image_url_root}[^\\s\"'<>\\\\()]+?\\.(?:jpg|jpeg|png|gif|webp|avif|svg|mp4|webm))\\b#i", $content, $matches);
 
-		$images_used_in_template = array();
 		$separator = '/';
 
 		$export_images = $this->_does_theme_export_images();
@@ -1556,15 +1566,15 @@ error_log(debug_backtrace());
 
 		// matches[1] containes full image urls
 		foreach ($matches[1] as $image) {
-			$exported_image_prefix = '{{upfront:style_url}}/images/' . trim($template, '/') . '/';
-			if (0 === strpos($image, $exported_image_prefix)) {
-				$images_used_in_template[] = $template_images_dir . basename($image);
+			if (0 === strpos($image, '{{upfront:style_url}}/')) {
 				continue;
 			}
 
-			$source_url = 0 === strpos($image, '{{upfront:home_url}}')
-				? get_home_url() . substr($image, strlen('{{upfront:home_url}}'))
-				: $image;
+			$source_url = str_replace(
+				array('{{upfront:home_url}}', '{{upfront:site_url}}'),
+				array(get_home_url(), get_site_url()),
+				$image
+			);
 			$is_ui_image = false !== strpos($image, $_this_theme_relative_ui_root);
 
 			// If the exports aren't allowed...
@@ -1588,14 +1598,12 @@ error_log(debug_backtrace());
 					if (file_exists($source_image)) {
 						$result = copy($source_image, $destination_image);
 					}
-					$images_used_in_template[] = $destination_image;
-
 					// Replace images url root with stylesheet uri
 					$image_uri = get_stylesheet_directory_uri() . '/images/' . $template . '/' . $image_filename;
-					$content = preg_replace('/\b' . preg_quote($image, '/') . '\b/i', $image_uri, $content);
+					$content = str_replace($image, $image_uri, $content);
 				} else {
 					// ... before we null out the other stuff and carry on.
-					$content = preg_replace('/\b' . preg_quote($image, '/') . '\b/i', '', $content);
+					$content = str_replace($image, '', $content);
 				}
 				continue;
 			}
@@ -1603,59 +1611,71 @@ error_log(debug_backtrace());
 			// Alright, so frome here on, we know we have images exports allowed.
 			// So, let's export!
 
-			// Image is from a theme
-			if (false !== strpos($source_url, get_theme_root_uri())) {
-				$relative_url = explode("/{$_themes_root}/", $source_url);
-				$source_root = get_theme_root();
-				$current_template_directory = $template_images_dir;
+			$source_url_no_scheme = preg_replace('#^https?:#i', '', $source_url);
+			$source_root = false;
+			foreach (array($uploads_dir['baseurl'] => $uploads_dir['basedir'], get_theme_root_uri() => get_theme_root()) as $root_url => $root_path) {
+				$root_url = rtrim(preg_replace('#^https?:#i', '', $root_url), '/') . '/';
+				if (0 !== strpos($source_url_no_scheme, $root_url)) continue;
+				$source_root = realpath($root_path);
+				$relative_url = rawurldecode(substr($source_url_no_scheme, strlen($root_url)));
+				break;
 			}
-			// Image is from uploads
-			if (false !== strpos($source_url, 'uploads')) {
-				$relative_url = explode("/{$_uploads_root}/", $source_url);
-				$source_root = $uploads_dir['basedir'];
-				$current_template_directory = $template_images_dir;
+			if (!$source_root) continue;
+
+			$source_image = realpath($source_root . $separator . $relative_url);
+			if (!$source_image || 0 !== strpos(wp_normalize_path($source_image), trailingslashit(wp_normalize_path($source_root)))) {
+				error_log('Upfront Builder: Bilddatei für den Theme-Export nicht lesbar: ' . $source_url);
+				continue;
 			}
-			// Image is from UI
-			if ($is_ui_image) {
-				$relative_url = explode("/{$_themes_root}/", $source_url);
-				$source_root = get_theme_root();
-				$current_template_directory = $theme_ui_path;
-			}
-			$relative_url = $relative_url[1];
 
-			// Get image filename
-			$source_path_parts = explode('/', $relative_url);
-			$image_filename = end($source_path_parts);
-
-			// Get source and destination image
-			$source_relative_path = str_replace('/', $separator, $relative_url);
-			$source_image = $source_root . $separator . $source_relative_path;
-
-			$destination_image = trailingslashit($current_template_directory) . $image_filename;
-
-			// Copy image
-			if (file_exists($source_image) && !file_exists($destination_image)) {
-				$result = copy($source_image, $destination_image);
-			}
-			$images_used_in_template[] = $destination_image;
+			$current_template_directory = $is_ui_image ? $theme_ui_path : $template_images_dir;
+			$image_filename = $this->_copy_theme_image($source_image, $current_template_directory);
+			if (false === $image_filename) continue;
 
 			// Replace images url root with stylesheet uri
 			$image_uri = !empty($is_ui_image)
 				? get_stylesheet_directory_uri() . '/ui/' . $image_filename
 				: get_stylesheet_directory_uri() . '/images/' . $template . '/' . $image_filename
 			;
-			$content = preg_replace('/\b' . preg_quote($image, '/') . '\b/i', $image_uri, $content);
-		}
-
-		// Delete images that are not used, this is needed if template is exported from itself
-		foreach ($original_images as $file) {
-			if (in_array($file, $images_used_in_template)) continue;
-			if (is_file($file)) {
-				unlink($file);
-			}
+			$content = str_replace($image, $image_uri, $content);
 		}
 
 		return $content;
+	}
+
+	private function _copy_theme_image ($source, $directory) {
+		if (!is_file($source) || !is_readable($source) || !is_dir($directory)) {
+			error_log('Upfront Builder: Bilddatei konnte nicht in das Theme kopiert werden: ' . $source);
+			return false;
+		}
+		$filename = basename($source);
+		$destination = trailingslashit($directory) . $filename;
+		if (is_file($destination) && realpath($destination) !== realpath($source)) {
+			$source_hash = hash_file('sha256', $source);
+			$destination_hash = hash_file('sha256', $destination);
+			if (false === $source_hash || false === $destination_hash) {
+				error_log('Upfront Builder: Bilddatei konnte nicht geprüft werden: ' . $source);
+				return false;
+			}
+			if ($source_hash !== $destination_hash) {
+				$extension = pathinfo($filename, PATHINFO_EXTENSION);
+				$filename = pathinfo($filename, PATHINFO_FILENAME) . '-' . substr($source_hash, 0, 12) . '.' . $extension;
+				$destination = trailingslashit($directory) . $filename;
+				if (is_file($destination) && hash_file('sha256', $destination) !== $source_hash) {
+					error_log('Upfront Builder: Bilddatei mit gleichem Namen ist bereits vorhanden: ' . $destination);
+					return false;
+				}
+			}
+		}
+		if (file_exists($destination) && !is_file($destination)) {
+			error_log('Upfront Builder: Bildziel ist keine Datei: ' . $destination);
+			return false;
+		}
+		if (!file_exists($destination) && !copy($source, $destination)) {
+			error_log('Upfront Builder: Bilddatei konnte nicht in das Theme kopiert werden: ' . $source);
+			return false;
+		}
+		return $filename;
 	}
 
 	/**
@@ -1720,6 +1740,12 @@ error_log(debug_backtrace());
 
 		$content = "<?php\n";
 		$content .= $this->_render_region($region);
+
+		$template = Thx_Fs::PATH_REGIONS . '/' . Thx_Fs::PATH_LIGHTBOXES . '/' . $region->name;
+		$images_path = array(Thx_Fs::PATH_IMAGES, Thx_Fs::PATH_REGIONS, Thx_Fs::PATH_LIGHTBOXES, $region->name);
+		$this->_fs->mkdir_p($images_path);
+		$content = $this->_export_images($content, $template, $this->_fs->get_path($images_path));
+		$content = $this->_make_urls_relative($content);
 
 		$this->_fs->write(array(
 			Thx_Fs::PATH_REGIONS,

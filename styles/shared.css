@@ -6,17 +6,23 @@
 	background: #e5f3fe;
 }
 .thx-context-mode-popup #upfront-popup-bottom {
-	background: #e5f3fe;
-	height: 54px;
+	width: 100%;
+	background: #e5f3fe !important;
+	min-height: 78px;
 }
 .thx-context-mode-popup #upfront-popup-bottom div {
-	clear: both;
-	width: 80%;
-	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	gap: 24px;
+	width: 100%;
+	min-height: 78px;
+	margin: 0;
+	padding: 8px 30px;
 }
 .thx-context-mode-popup #upfront-popup-bottom button {
-	float: left;
-	max-width: 40%;
+	flex: 0 0 192px;
+	width: 192px;
+	max-width: none;
 }
 .thx-context-mode-popup #upfront-popup-bottom button {
 	background: #1fcd8f;
@@ -24,11 +30,12 @@
 	border: 0px solid #fff;
 }
 .thx-context-mode-popup #upfront-popup-bottom label {
-	float: left;
-	margin-left: 2em;
-	line-height: 44px;
+	flex: 1 1 auto;
+	margin-left: 0;
+	line-height: 1.4;
 }
 .thx-context-mode-popup #upfront-popup-bottom label input {
 	margin-right: .4em;
-	margin-top: 15px;
+	margin-top: 0;
+	vertical-align: middle;
 }

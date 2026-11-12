@@ -1,6 +1,13 @@
 Change Log
 ============
 
+1.1.0 - 2026-11-12
+---------------------------------------------------------
+- Fix: Bei aktiviertem Bildexport werden Bilder aus Layouts, globalen Bereichen und Lightboxes ins Theme kopiert; bereits vorhandene Theme-Bilder werden beim Speichern nicht automatisch gelöscht.
+- Fix: Bild-URLs werden auch bei Multisite- und Makro-Pfaden korrekt verarbeitet; WebP, AVIF und SVG werden beim Export berücksichtigt.
+- Fix: Verschiedene Bilder mit gleichem Dateinamen überschreiben einander beim Export nicht mehr.
+- Fix: Hintergrundslider-Bilder werden auch für responsive Ansichten ins Theme übernommen. Mit aktualisiertem Upfront-Framework bleiben sie ohne automatischen Mediathek-Import sichtbar und im Builder bearbeitbar.
+
 1.0.9 - 2026-10-28
 ---------------------------------------------------------
 - Änderung: Neue Theme-Namen werden nur lokal auf gültige Slugs und vorhandene Theme-Verzeichnisse geprüft, auch in Multisite-Netzwerken. Die externe Repository-Abfrage entfällt.
