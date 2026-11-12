@@ -17,7 +17,7 @@ class Thx_Exporter {
 	protected $_global_regions = array();
 	protected $_global_sideregions = array();
 
-	private $_theme_exports_images = true; // Export images by default, for legacy themes
+	private $_theme_exports_images = true;
 
 	/**
 	 * Just basic, context-free bootstrap here.
@@ -1577,39 +1577,27 @@ error_log(debug_backtrace());
 			);
 			$is_ui_image = false !== strpos($image, $_this_theme_relative_ui_root);
 
-			// If the exports aren't allowed...
 			if (!$export_images) {
-				// Lots of duplication, this could really use some refactoring :/
 				if ($is_ui_image) {
-					// ... let's deal with the UI images first ...
 					$relative_url = explode("/{$_themes_root}/", $image);
 					$relative_url = $relative_url[1];
 					$source_root = get_theme_root();
 					$source_path_parts = explode('/', $relative_url);
 					$image_filename = end($source_path_parts);
-
-					// Get source and destination image
 					$source_relative_path = str_replace('/', $separator, $relative_url);
 					$source_image = $source_root . $separator . $source_relative_path;
-
 					$destination_image = $theme_ui_path . $image_filename;
 
-					// Copy image
 					if (file_exists($source_image)) {
-						$result = copy($source_image, $destination_image);
+						copy($source_image, $destination_image);
 					}
-					// Replace images url root with stylesheet uri
 					$image_uri = get_stylesheet_directory_uri() . '/images/' . $template . '/' . $image_filename;
 					$content = str_replace($image, $image_uri, $content);
 				} else {
-					// ... before we null out the other stuff and carry on.
 					$content = str_replace($image, '', $content);
 				}
 				continue;
 			}
-
-			// Alright, so frome here on, we know we have images exports allowed.
-			// So, let's export!
 
 			$source_url_no_scheme = preg_replace('#^https?:#i', '', $source_url);
 			$source_root = false;
@@ -1935,12 +1923,14 @@ error_log(debug_backtrace());
 	 *
 	 * @return bool
 	 */
-	private function _create_functions_file ($slug) {
+	private function _create_functions_file ($slug, $exports_images=null) {
 		$data = array(
 			'name' => ucwords(str_replace('-', '_', sanitize_html_class($slug))),
 			'slug' => $slug,
 			'pages' => '',
-			'exports_images' => $this->_does_theme_export_images() ? 'true' : 'false', // Force conversion to string so it can be expanded in the template.
+			'exports_images' => null === $exports_images
+				? ($this->_does_theme_export_images() ? 'true' : 'false')
+				: ($exports_images ? 'true' : 'false'),
 		);
 
 		$contents = $this->_template('functions', $data);
@@ -2087,6 +2077,10 @@ error_log(debug_backtrace());
 		if (false === $this->_create_style_file($theme_slug, $form)) {
 			$this->_json->error_msg(__('Die Theme-Stylesheet-Datei konnte nicht sicher aktualisiert werden. Die vorhandene Datei wurde unverändert gelassen.', UpfrontThemeExporter::DOMAIN), 'filesystem_error');
 		}
+		$exports_images = !empty($form['thx-export_with_images']) && $form['thx-export_with_images'] == 'true';
+		if (false === $this->_update_theme_image_export_setting($exports_images)) {
+			$this->_json->error_msg(__('Die Theme-Funktionsdatei konnte nicht sicher aktualisiert werden. Die vorhandene Datei wurde unverändert gelassen.', UpfrontThemeExporter::DOMAIN), 'filesystem_error');
+		}
 
 		// Also, let's activate this, if requested
 		$current = get_option('stylesheet');
@@ -2175,12 +2169,12 @@ error_log(debug_backtrace());
 		}
 
 		// This is important to set *before* we create the theme
-		remove_all_filters('upfront-thx-theme_exports_images'); // This is for the duration of this request - so we don't inherit old values, whatever they are
+		remove_all_filters('upfront-thx-theme_exports_images');
 		$this->_theme_exports_images = ( !empty($form['thx-export_with_images']) && $form['thx-export_with_images'] == 'true' );
 		// Allright, good to go
 
 		// Write functions.php to add stylesheet for theme
-		if (false === $this->_create_functions_file($theme_slug)) {
+		if (false === $this->_create_functions_file($theme_slug, $this->_theme_exports_images)) {
 			$this->_json->error_msg(__('Die Theme-Funktionsdatei konnte nicht geschrieben werden.', UpfrontThemeExporter::DOMAIN), 'filesystem_error');
 		}
 
@@ -2586,6 +2580,10 @@ error_log(json_encode(array("_save_post_layout", debug_backtrace())));
 		return $post;
 	}
 
+	private function _validate_theme_slug ($slug) {
+		return Thx_Sanitize::php_safe($slug, false);
+	}
+
 	private function _does_theme_export_images () {
 		return get_stylesheet() !== $this->_theme
 			? $this->_theme_exports_images
@@ -2593,7 +2591,25 @@ error_log(json_encode(array("_save_post_layout", debug_backtrace())));
 		;
 	}
 
-	private function _validate_theme_slug ($slug) {
-		return Thx_Sanitize::php_safe($slug, false);
+	private function _update_theme_image_export_setting ($exports_images) {
+		$functions_file = $this->_fs->get_path('functions.php');
+		if (empty($functions_file) || !is_readable($functions_file) || !is_writable($functions_file)) {
+			return false;
+		}
+
+		$contents = file_get_contents($functions_file);
+		if (false === $contents) return false;
+
+		$updated = preg_replace(
+			'/protected\s+\$_exports_images\s*=\s*(?:true|false)\s*;/',
+			'protected $_exports_images = ' . ($exports_images ? 'true' : 'false') . ';',
+			$contents,
+			1,
+			$count
+		);
+		if (null === $updated || 1 !== $count) return false;
+
+		return false !== file_put_contents($functions_file, $updated);
 	}
+
 }

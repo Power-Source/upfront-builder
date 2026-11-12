@@ -121,6 +121,12 @@ try {
 	}
 	$method = $reflection->getMethod('_export_images');
 	$method->setAccessible(true);
+	$functions_file = $root . '/themes/sample/functions.php';
+	file_put_contents($functions_file, "<?php\nclass Sample extends Upfront_ChildTheme {\n\tprotected \$_exports_images = false;\n}\n");
+	$update_image_export = $reflection->getMethod('_update_theme_image_export_setting');
+	$update_image_export->setAccessible(true);
+	expect_image_export($update_image_export->invoke($exporter, true), 'The image export setting was not saved to the theme.');
+	expect_image_export(strpos(file_get_contents($functions_file), 'protected $_exports_images = true;') !== false, 'The saved theme does not enable image export.');
 	$directory = $root . '/themes/sample/images/archive-home';
 	$content = implode("\n", array(
 		"'src' => 'http://example.test/media/first/photo.webp',",
